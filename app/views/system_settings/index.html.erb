@@ -1,0 +1,35 @@
+<div class="heading">
+<div class="chromestyle" id="chromemenu">
+<ul>
+	<li><%= link_to "<img src='images/date.png' /> Events", events_url %></li>
+  <% if has_role?(Role::BUYER.to_sym) || has_role?(Role::ADMIN.to_sym) %>
+	<li><%= link_to "<img src='images/chart_bar.png' /> Global Activity Report", {:controller => 'reports' , :action => 'global_activity'}, {:title => "Show user activity for all events."} %></li>
+	<li><%= link_to "<img src='images/cog.png' /> Global Settings", {:controller => 'system_settings' , :action => 'index'}, {:title => "Show global setting for all events."} %></li>
+  <% end %>
+</ul>
+</div></div>
+
+<div class="content-section">
+
+<div class="events-minor-color long-heading">
+<h3>Global Settings</h3>
+</div>
+
+<table>
+  <tr>
+    <th>Setting</th>
+	<th>Value</th>
+	<th> </th>
+  </tr>
+
+<% @settings.each do |setting| %>
+  <tr>
+	<td><%=t setting.key %></td>
+	<td><%=h setting.cs_value != nil ? setting.cs_value : setting.value %></td>
+    <td><%= link_to 'Edit', {:controller => 'system_settings' , :action => 'edit', :id => setting.id}, {:title => "Edit Setting"} %></td>
+  </tr>
+<% end %>
+
+</table>
+
+</div>

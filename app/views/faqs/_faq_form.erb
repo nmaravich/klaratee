@@ -1,0 +1,18 @@
+<div id="faq-form" class="hide">
+    <% @faq = Faq.new if @faq.nil? %>
+    <% form_for(@faq) do |f| %>
+      <%= f.error_messages %>
+      <p>
+        <%= f.label textarea_title.nil? ? "Question" : "#{textarea_title}:" %>
+        <%= f.text_area :text, :cols=>60, :rows=>6 %>
+      </p>
+	  <p>
+	  <% if has_role?(Role::BUYER.to_sym) or has_role?(Role::ADMIN.to_sym) %> 
+	  <%= label_tag 'Visibility:' %><%= enum_select :faq, :visibility  %> <br>
+	  <% end %>
+      </p>
+      <%=  if ! parent_id.nil?
+			f.hidden_field :parent_id, {:value => parent_id}
+		   end %>
+    <% end %>
+</div>

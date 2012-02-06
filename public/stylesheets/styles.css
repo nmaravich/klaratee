@@ -1,0 +1,898 @@
+/* Helps IE in some layout cases */
+* html {
+	height: 100%;
+}
+
+body {
+/*	
+	background-image: url("../images/background-gradient.gif");
+*/	
+    background-image: url("../images/background_gradient.jpg");
+	background-repeat: repeat-x;
+    margin: 0;
+    padding: 0;
+    background-color: #DADFE5;
+    height: 100%;
+}
+
+table tr.evenrow {
+    background-color: #E0E6ED;
+}
+
+table tr.oddrow {
+    background-color: white;
+}
+
+table th {
+       background-color: #70767D;
+	   color: white;
+	   padding: 3px;
+}
+
+th.system_col {
+   background-color: #B0767D;   	
+}
+
+#header {
+    float: left;
+    background-image: url("/images/masthead_top.png");
+    background-repeat: repeat-x;
+    background-position: top left;
+    height: 35px;
+    width: 100%;
+}
+
+      div#header-container {
+          margin: auto; /* FF */
+          width: 996px;
+          height: 80px;
+      }
+      
+	  div#header-container #info-area {
+	  	width: 200px;
+        height: 50px;
+        float: right;
+		text-align: right;
+	  }
+	  
+      #info-area div {
+        padding: 2px;
+      }
+
+	  div#messages-container {
+	  	width: 100%;
+		padding: 4px;
+	  }
+	  
+      div#main-container {
+          margin: auto;
+          width: 996px;
+          text-align: left;
+      }
+	  
+      #logo {
+/*        
+          background-image: url("../images/klaratee.png");
+          width: 240px;
+          height: 68px;
+ */          
+          width: 380px;
+          height: 70px;
+          background-image: url("../images/logos/default_poweredby_logo.png");
+          background-repeat: no-repeat;
+          margin-left: 10px;
+          padding-left: 16px;
+          vertical-align: top;
+          float: left;
+      }
+
+      #login-logo {
+          width: 218px;
+          height: 70px;
+          background-image: url("../images/logos/default_logo.png");
+          background-repeat: no-repeat;
+          margin-left: 10px;
+          padding-left: 16px;
+          vertical-align: top;
+          float: left;
+      }
+      
+      #login-powered {
+          width: 220px;
+          height: 34px;
+          background-image: url("../images/powered_by_klaratee.gif");
+          background-repeat: no-repeat;
+          margin-left: 30px;
+		  text-align: center;
+		  padding: 0 0 0 16px;
+          /* padding-left: 16px; */
+          vertical-align: top;
+          float: left;
+      }
+      
+      #footer-container {
+          float: left;
+          margin-top: 90px;
+          width: 990px;
+          color: #DEDEDE;
+      }
+      
+      div#left-nav {
+          float: left;
+          width: 100px;
+          height: 100px;
+      }
+
+      #left-nav ul {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          text-align: center;
+      }
+
+      #left-nav ul li {
+          float: left;
+          background: url("../images/tab_off.gif");
+      }
+      
+      #event-tab, #supplierview-tab, #template-tab, #supplier-tab, #item-tab, #admin-tab {
+          width: 100px;
+          height: 31px;
+          cursor: pointer;
+      }
+      
+      #event-tab div, #supplierview-tab div, #template-tab div, #supplier-tab div, #item-tab div, #admin-tab div {
+          text-align: left;
+          margin: 4px 0px 0px 10px;
+          color: #666;
+          font-size: 15px;
+      }
+      
+      #event-tab div:hover, #supplierview-tab div:hover, #template-tab div:hover, #supplier-tab div:hover, #item-tab div:hover, #admin-tab div:hover {
+          color: #000;
+      }
+      
+
+      div#main-content {
+          border: solid 1px;
+          margin: 0px 0px 0px 0px;
+          height: 500px;
+          margin-left: 100px;
+          width: 886px;
+          background-color: #fff;
+      }
+	  
+	  div#main-content .content-section-nopad {
+	  	padding: 0px;
+		float: left;
+	  }
+	  
+	  div#main-content .content-section {
+	  	padding: 4px;
+		float: left;
+	  }
+	  
+      div#main-content .heading{
+        background-color: #CADAEF;
+        height: 20px;
+        padding: 0px;
+        margin-bottom: 6px;
+      }   
+	  
+	  
+/* ------------------------------------------ */
+/*     STYLES FOR INDIVIDUAL PAGES            */
+/* ------------------------------------------ */
+/*
+ * Until everything is all worked out i'm putting the styles in here.
+ * we can tidy this up later
+ */
+
+/* *** FROM SUPPLIERS INDEX *** */
+   #link-block {
+       margin: 0px 0px 10px 3px;
+       text-align: left;
+	   float: left;
+	   width: 850px;
+   }
+   
+   #link-block a {
+       padding: 8px;
+   }
+   
+   #upload {
+	   margin: 5px 0px 0px 2px;
+	   padding: 0px 0px 0px 4px;
+       display: none;
+	   float: left;
+	   width: 872px;
+	   height: 46px;
+	   border-style: solid;
+       background-color: #DDDDDD;
+       border-color: #BBBBBB;
+   }
+   #upload .prompt {
+   	 font-weight: bold;
+   	 padding: 4px;
+   }
+
+
+/* *** FROM TEMPLATES SCREEN *** */
+#add_columns {
+  float: left;
+}
+
+#sortable {
+    list-style-type: none;
+    margin: 0px 0px 0px 3px;
+    padding: 0;
+	cursor: pointer;
+}
+
+#sortable li {
+    margin: 3px 3px 3px 0;
+    padding: 3px;
+    float: left;
+    width: 90px;
+    height: 80px;
+    font-size: 8pt;
+    text-align: center;
+    background-color: #E4E4E4;
+    border: 1px solid #000;
+	overflow-y: auto;
+}
+
+.col-handle {
+    float: left;
+}
+
+.col-attrs {
+    float: left;
+    margin: 5px 0px 0px 0px;
+	clear: both;
+    text-align: left;
+}
+
+.col-attrs span.name {
+	font-weight: bold;
+}
+.col-attrs span.type {
+	color: #001190;
+	font-style: italic;
+	font-weight: bold;
+}
+.col-attrs span.required {
+	color: #901100;
+	font-style: italic;
+	font-weight: bold;
+}
+
+.action-group {
+    float: right;
+    padding: 0px 3px 0px 0px;
+}
+
+
+.inline-edit input {
+    background-color: #FFFF99;
+}
+
+#col_list {
+    float: left;
+	width: 825px;
+}
+    
+#contacts-list {
+    float:left;
+    width: 100%;
+}   
+
+/* *** FROM ITEMS SCREEN *** */
+#items-list td {
+    border-style: solid;
+    border-color: #D0D6DD;
+    border-width: 1px;
+}
+
+#items-list input {
+     border: 1px solid #284279;
+}
+
+.hover-highlight {
+    padding: 5px;
+}
+.hover-highlight:hover {
+    background-color: #FFEECC;        
+    cursor: pointer;
+}
+
+/* FAQ styles */
+.faq-asker {
+	display:inline;
+}
+.faq-reply-table {
+	border: 1;
+}
+.faq-reply-row {
+	border-top: 1px solid #AAA;
+	border-bottom: 1px solid #AAA;
+	width:100%;
+}
+.faq-reply-when {		
+	text-align:right;	
+	float: right;
+	font-style: italic;	
+	padding: 0px 0px 0px 0px;
+}
+.faq-reply-private {
+	background-color: #fbcbd1;
+}
+.faq-reply-public {
+	background-color: #ffffff;
+}
+.faq-reply-user {	
+	width:100px;
+	float: left;
+	text-align:left;
+	padding: 0px 0px 0px 0px;
+}
+.faq-reply-text {
+	padding: 0px 0px 0px 50px;
+	margin: 0px 0px 0px 0px;	
+}
+.faq-reply-visibility {
+	display:inline;
+}
+.faq-reply-title {
+	display:inline;
+}
+/* -----------------------------------------*/
+/*   BLANKET STYLES FOR COMMON ELEMENTS     */
+/* -----------------------------------------*/
+
+/* Change size to em if you want it based on the users pc text size settings. */
+p, td, tr, ol, ul, div, blockquote, caption, input, body, a, form {
+    font-family: Arial, Helvetica, sans-serif, monospace;
+    /* 1em is 10px, 1.6em is 16px,9em is 9px */
+    font-size: .95em;
+    line-height: 1.1em;
+    color: #000;
+}
+
+td {
+	padding: 3px;
+	white-space: nowrap;
+}
+
+label {
+    float: left;
+    text-align: right;
+    margin-right: 0.5em;
+    display: block;
+}
+label:after { content: ":" }
+
+caption {
+    display: table-caption;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* To base text of users pc text size us 2em, 1.5em and 1.17 em repectively */
+h1 {
+    font-size: 2em;
+    margin: 11.67px 0;
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    text-align: left;
+    color: #435212;
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+h3 {
+    font-size: 1.17em;
+}
+
+h4 {
+    font-size: 1em;
+}
+
+h4, p, blockquote, ul, fieldset, ol, dl, dir, menu {
+    font-size: 1.12em;
+}
+
+h5 {
+    font-size: .83em;
+}
+
+h6 {
+    font-size: .75em;
+}
+
+h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    color: #000;
+    font-family: Verdana, Arial, Helvetica, sans-serif, monospace;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    margin: 0px 0px 0px 0px; /* If these aren't used then the h's add  */
+    padding: 0px 0px 0px 0px; /* line breaks like a <p> tag*/
+	vertical-align:middle;
+}
+
+.long-heading {
+    width: 650px;  
+    height: 26px;
+	padding: 5px 0px 0px 12px;
+	margin: 2px 0px 0px 0px;
+}
+
+.events-minor-color {
+	vertical-align: middle;
+    background-image: url("../images/heading-bg-blue.png");
+    background-repeat: no-repeat;	
+}
+
+.templates-minor-color {
+	vertical-align: middle;
+    background-image: url("../images/heading-bg-red.png");
+    background-repeat: no-repeat;	
+}
+
+.suppliers-minor-color{
+	vertical-align: middle;
+    background-image: url("../images/heading-bg-green.png");
+    background-repeat: no-repeat;	
+}
+
+.items-minor-color{
+	vertical-align: middle;
+    background-image: url("../images/heading-bg-orange.png");
+    background-repeat: no-repeat;	
+}
+
+.admin-minor-color{
+	vertical-align: middle;
+    background-image: url("../images/heading-bg-red.png");
+    background-repeat: no-repeat;	
+}
+
+.subtle-text {
+    color: #BBB;
+    font-size: .9em;
+}
+
+
+/* Used for the copyright info.   */
+cite {
+    font-size: 9px;
+    color: #bbbbbb
+}
+
+hr {
+    border: 1px solid;
+    color: #DDDDDD;
+    background-color: #DDDDDD;
+    height: 2px;
+	width: 100%;
+}
+
+/*  IE6 and below doesn't respond to this one  */:focus {
+    outline: #EEE thin dotted;
+}
+
+.hide {
+    display: none;
+}
+
+.showItem {
+    display: block;	
+}
+
+
+#fadeInPopup{  
+display:none;  
+position:fixed;  
+_position:absolute; /* hack for internet explorer 6*/  
+height:100%;  
+width:100%;  
+top:0;  
+left:0;  
+background:#000000;  
+border:1px solid #cecece;  
+z-index:1;  
+}  
+#uploadPopup{  
+display:none;  
+position:fixed;  
+_position:absolute; /* hack for internet explorer 6*/  
+height:225px;  
+width:250px;  
+background:#FFFFFF;  
+border:2px solid #cecece;  
+z-index:2;  
+padding:12px;  
+font-size:13px;  
+}  
+#uploadPopup h1{  
+text-align:left;  
+color:#4FA5FD;  
+font-size:22px;  
+font-weight:700;  
+border-bottom:1px dotted #D3D3D3;  
+padding-bottom:2px;  
+margin-bottom:20px;  
+}  
+#uploadPopup .processing-image{  
+text-align:center;  
+margin-top:20px;  
+}  
+
+
+/* ----------------------------------------------------- */ /*
+ These flash_xxx tags are for the various flash[:notice] style
+ messages rails uses.
+ */ /* ----------------------------------------------------- */
+#messages {
+    position: relative;
+    left: 50px;
+}
+
+#error-box, #info-box, #warning-box, #notice-box {
+    color: #000000;
+    width: 80%;
+    padding: 5px;
+    margin: 0px auto;
+    border: thin solid;
+    font-weight: bold;
+    font-size: 1.1em;
+    text-align: center;
+    border-style: dashed;
+}
+
+#error-box {
+    background-color: #FFE0E5;
+    border-color: #EEB4BE;
+}
+
+#notice-box {
+    background-color: #CDEFB3;
+    border-color: #67CF19;
+}
+
+#warning-box {
+    background-color: #FEFF6F;
+    border-color: #EEB4BE;
+}
+
+#info-box {
+    background-color: #CDEFB3;
+    border-color: #67CF19;
+}
+
+/* ----------------------------------------------------- */
+
+/* -----------------------------------------*/
+/*   FORM ELEMENTS                          */
+/* -----------------------------------------*/
+.errInput {
+    background-color: pink;
+}
+
+.reqInput {
+    background-color: #F5F2DA;
+}
+
+input.btnNav, input.btnMain, input.btnDash, input.btnSearch {
+    font-size: 10pt;
+    font-weight: bold;
+    font-family: Verdana, serif, sans-serif, monospace;
+    border: 3px solid;
+    padding: 4px;
+    border-color: #507BB9;
+    margin: 3px 1px 1px 1px;
+    background-color: #01387E; /* Main button color*/
+}
+
+input.btnSearch {
+    font-size: 1.0em;
+    border: 1px solid;
+    padding: 2px;
+}
+
+input.btnAdd {
+    background-image: url(../images/add_icon.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 25px;
+    width: 40px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    font-family: Verdana, serif, sans-serif, monospace;
+}
+
+input.btnMain, input.btnDash, input.btnSearch {
+    color: #ffffff; /* Color of text on button */
+}
+
+input.btnNav {
+    color: #eeeeee; /* Color of text on button */
+    background-image: url("../images/buttonGradient.gif");
+}
+
+input.btnDash {
+    background-image: url("../images/buttonGradient.gif");
+}
+
+input.btnDisabled {
+    font-size: 95%;
+    font-weight: bold;
+    border: 1px solid;
+    border-color: #BBBBBB;
+    margin: 3px 1px 1px 1px;
+    background-color: #EEEEEE; /* Main button color*/
+    color: #BBBBBB;
+}
+
+a.action-button {
+	color:#3E6D8E;
+	background-color:#E0EAF1;
+	border-bottom:1px solid #3E6D8E;
+	border-right:1px solid #7F9FB6;
+	padding:3px 4px 3px 4px;
+	margin:2px 4px 2px 4px;
+	text-decoration:none;
+	font-size:90%;
+	line-height:2.4;
+	white-space:nowrap;
+}
+a.action-button:hover {
+	background-color:#3E6D8E;
+	color:#E0EAF1;
+	border-bottom:1px solid #37607D;
+	border-right:1px solid #37607D;
+	text-decoration:none;
+}
+/* -----------------------------------------*/
+/*    END FORM ELEMENTS                     */
+/* -----------------------------------------*/
+
+/* -----------------------------------------*/
+/*   HYPERLINKS                             */
+/* -----------------------------------------*/
+a:link, a:visited {
+    text-decoration: underline;
+    color: #10429B;
+    font-weight: bold;
+    font-size: .85em;
+
+}
+
+a:hover, a:active {
+    text-decoration: underline;
+    color: #2858ac;
+    font-weight: bold;
+    font-size: .85em;
+}
+
+th a:link, th a:visited {
+    color: white;
+}
+
+th a:hover, th a:active {
+    color: #FFFFAA;
+}
+
+
+.digg_pagination {
+  background: white;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  /* self-clearing method: */ }
+.digg_pagination a, .digg_pagination span {
+    padding: .2em .5em;
+    display: block;
+    float: left;
+    margin-right: 1px; }
+.digg_pagination span.disabled {
+    color: #999;
+    border: 1px solid #DDD; }
+.digg_pagination span.current {
+    font-weight: bold;
+    background: #2E6AB1;
+    color: white;
+    border: 1px solid #2E6AB1; }
+.digg_pagination a {
+    text-decoration: none;
+    color: #105CB6;
+    border: 1px solid #9AAFE5; }
+.digg_pagination a:hover, .digg_pagination a:focus {
+      color: #003;
+      border-color: #003; }
+.digg_pagination .page_info {
+    background: white;
+    color: black;
+    padding: .4em .6em;
+    width: 28em;
+    margin-bottom: .3em;
+    text-align: center;
+	border: 1px solid #9AAFE5; }
+.digg_pagination .page_info b {
+      color: #003;
+      background: #E0F6FF;
+      padding: .1em .25em; }
+.digg_pagination:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden; }
+* html .digg_pagination {
+    height: 1%; }
+*:first-child+html .digg_pagination {
+    overflow: hidden; }
+
+/* ------------------------------------------------*/
+/* Bidirectionality settings                       */
+/* See - http://www.w3schools.com/TAGS/tag_bdo.asp */
+/* ------------------------------------------------*/
+BDO[DIR =
+"ltr"] {
+    direction: ltr;
+    unicode-bidi: bidi-override;
+}
+
+BDO[DIR =
+"rtl"] {
+    direction: rtl;
+    unicode-bidi: bidi-override;
+}*[DIR =
+"ltr"] {
+    direction: ltr;
+    unicode-bidi: embed;
+}*[DIR =
+"rtl"] {
+    direction: rtl;
+    unicode-bidi: embed;
+}
+
+/* ---------------------------------------------------------------------*/
+/*     Some Styles to help when printing ,
+ and any screen readers. Not heavily tested so please report any
+ issues!
+ */
+/* ----------------------------------------------------------------------*/
+@media print {
+
+h1 {
+        page-break-before: always;
+}
+
+h1, h2, h3, h4, h5, h6 {
+        page-break-after: avoid;
+}
+
+ul, ol, dl {
+        page-break-before: avoid;
+}
+}
+@media aural { /* changed from 'speech' which was not defined in CSS2 */
+h1, h2, h3, h4, h5, h6 {
+        voice-family: paul, male;
+        stress: 20;
+        richness: 90;
+}
+
+h1 {
+        pitch: x-low;
+        pitch-range: 90;
+}
+
+h2 {
+        pitch: x-low;
+        pitch-range: 80;
+}
+
+h3 {
+        pitch: low;
+        pitch-range: 70;
+}
+
+h4 {
+        pitch: medium;
+        pitch-range: 60;
+}
+
+h5 {
+        pitch: medium;
+        pitch-range: 50;
+}
+
+h6 {
+        pitch: medium;
+        pitch-range: 40;
+}
+
+li, dt, dd {
+        pitch: medium;
+        richness: 60;
+}
+
+dt {
+        stress: 80;
+}
+
+pre, code, tt {
+        pitch: medium;
+        pitch-range: 0;
+        stress: 0;
+        richness: 80;
+}
+
+em {
+        pitch: medium;
+        pitch-range: 60;
+        stress: 60;
+        richness: 50;
+}
+
+strong {
+        pitch: medium;
+        pitch-range: 60;
+        stress: 90;
+        richness: 90;
+}
+
+dfn {
+        pitch: high;
+        pitch-range: 60;
+        stress: 60;
+}
+
+s, strike {
+        richness: 0;
+}
+
+i {
+        pitch: medium;
+        pitch-range: 60;
+        stress: 60;
+        richness: 50;
+}
+
+b {
+        pitch: medium;
+        pitch-range: 60;
+        stress: 90;
+        richness: 90;
+}
+
+u {
+        richness: 0;
+}
+
+a:link {
+        voice-family: harry, male;
+}
+
+a:visited {
+        voice-family: betty, female;
+}
+
+a:active {
+        voice-family: betty, female;
+        pitch-range: 80;
+        pitch: x-high;
+}
+
+
+}
+
+/* ----------------------------------- */
+/* --- END PRINT AND READER STYLES --- */
+/* ----------------------------------- */

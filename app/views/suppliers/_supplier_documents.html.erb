@@ -1,0 +1,7 @@
+<table id="supplier_doc_<%= supplier_documents.id %>" width="100%">
+	<tr>
+		<td width="30%"><%= link_to( supplier_documents.filename, supplier_doc_download_url(supplier_documents.id)) %></td>
+		<td width="10%">(<%= sprintf("%.2f", (supplier_documents.size.to_f / 1024)   )   %> KB )</td>
+		<td width="60%"><%= link_to_remote("Remove", {:url => supplier_doc_path(supplier_documents), :method => :delete, :confirm => "are you sure?"} ) %></td>
+	</tr>
+</table>

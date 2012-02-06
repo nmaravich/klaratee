@@ -1,0 +1,12 @@
+<% 
+    # Incase you have > 1 paging block on the screen you can give them seperate id's to manipulate them individually
+    pager_id ||= 'paging_block'
+%>
+<div id="<%= pager_id %>">
+<div class="digg_pagination">
+   <div class="page_info">
+      <%= page_entries_info paging_object %>
+   </div>
+   <%= will_paginate paging_object, :container => false %>
+</div>
+</div>

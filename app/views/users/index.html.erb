@@ -1,0 +1,29 @@
+<h1>Listing users</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+	<th>login</th>
+	<th>Creator</th>
+	<th>Updater</th>
+	<th colspan='3'>Actions</th>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr>
+    <td><%=h "#{user.first_name} #{user.last_name}" %></td>
+	<td><%=h user.login %></td>
+	<td><%=h user.creator._?.login %></td>
+	<td><%=h user.updater._?.login %></td>
+	
+    <td><%= link_to 'Details', user %></td>
+    <td><%= link_to 'Edit', edit_user_path(user) %></td>
+    <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+
+</table>
+
+<br />
+
+<%= link_to 'New User', new_user_path %>

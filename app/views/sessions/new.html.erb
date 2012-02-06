@@ -1,0 +1,18 @@
+<% company_name = (@company.nil?) ? 'klaratee': @company.name  %>
+<style type="text/css">
+#login-logo {background-image:url(<%= image_path LayoutsHelper.logo_path( company_name, "_logo.png") %>);}
+</style>
+<% form_tag session_path do -%>
+
+<div id="login-logo"></div>
+<div id="form-controls">	
+	<label for="login">User name</label><%= text_field_tag 'login' %><br/>
+	<label for="password">Password</label><%= password_field_tag 'password' %><br/>
+	<div class="indent">		
+	<%= check_box_tag 'remember_me' %> Remember me<br/><br/>
+	<%= submit_tag 'Log in' %><br/><br/>
+	<%= link_to 'Forgot Password?', forgot_password_url %>
+	</div>
+</div>
+<div id="login-powered"></div>
+<% end -%>

@@ -1,0 +1,17 @@
+<p>
+  <b>Data template:</b>
+  <%=
+    #h @item.data_template_id 
+   %>
+</p>
+
+<p>
+  <b>Supplier:</b>
+  <%=
+   #h @item.supplier_id 
+%>
+</p>
+
+
+<%= link_to 'Edit', edit_item_path(@item) %> |
+<%= link_to 'Back', items_path %>

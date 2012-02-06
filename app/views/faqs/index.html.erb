@@ -1,0 +1,40 @@
+<%
+# Gives you the auth token.  You need that bad boy in order to do a DELETE / POST
+# requests. Its a cross site scripting defense built in to rails.
+# http://caboo.se/doc/classes/ActionController/RequestForgeryProtection/ClassMethods.html %>
+<%= javascript_tag "token = '#{form_authenticity_token}'" %>
+
+<div class="heading">
+<div class="chromestyle" id="chromemenu">
+<ul>
+  <li><%= link_to "<img src='images/arrow_left.png'/> Back to Events", :controller => 'events', :action => 'index' %></li>
+</ul>
+</div>
+</div>
+
+<div class="content-section">
+
+<div class="events-minor-color long-heading">
+<h3 >FAQs <%= "for #{@event.name}" if @event %></h3>
+</div>
+
+<% if ! @root_faq.nil? %>
+	<%= link_to_function 'Add FAQ', "faq_modal(null, 'FAQ', #{@root_faq.id} )" %>
+<% end %>
+
+<script>
+	$(document).ready(function() {
+		$('#faq-list').dataTable({
+			"bJQueryUI": true,
+			"bStateSave": true
+		});
+	} );
+</script>
+
+<%= render :partial => "faq_table", :locals => { :faqs => @faqs, :table_id => "faq-list" } %>
+
+</div>
+
+<div id="faq-form"> </div>
+<%= render :partial => "/shared/confirm_dialog" %>
+<%# render :partial => "faq_form", :locals => { :faq => nil} %>

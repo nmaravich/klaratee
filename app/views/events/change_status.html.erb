@@ -1,0 +1,42 @@
+<div class="heading">
+<div id="link-block">
+   
+</div>
+</div>
+
+Select the event invitees below for whom you would like to individually re-open the <b><%=h @event.name %></b> event.
+<br>
+<br>
+<% form_for(@event) do |f| %>
+  
+  <%= f.error_messages %>	
+
+<table id="user-list">
+   <thead>
+      <caption><%=h "#{@event.name} invitees "%></caption>
+      <tr>
+         <th>Name</th>
+		 <th>Userid</th>
+		 <th>Company</th>
+         <th>Open</th>
+	  </tr>
+   </thead>
+   
+  <% @invitees.each do |i| %>
+     <tr class="<%= cycle('oddrow', 'evenrow') %>">
+     	<td><%=h "#{i.first_name} #{i.last_name}" %></td>
+		<td><%=h i.login %></td>     
+		<td><%=h  i.suppliers.map{|s| s.company_name}.join(",") %></td>     
+		 <% @statuses.each do |st| %>
+		    <td><%= check_box_tag "event[status_exceptions_atts][#{st}][]", i.id, @status_exceptions[st].include?(i.id) %></td>	   
+		 <% end %>
+     </tr>
+  <% end %>
+</table>
+
+  <% @statuses.each do |st| %>
+	 <%= hidden_field_tag "event[status_exceptions_atts][#{st}][]", "" %>
+  <% end %>
+  <br>
+  <%= f.submit "Update" %>
+<% end %>

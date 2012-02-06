@@ -1,0 +1,31 @@
+<table id="<%= table_id %>" width="600">
+   <thead>
+      <tr>
+         <th>FAQ text</th>
+         <th>Visibility</th>         
+		 <th>Replies</th>
+		 <th>Updated</th>
+		 <th>Actions</th>
+      </tr>
+   </thead>
+   <tbody>
+	<% if faqs.nil? or faqs.empty? %>		
+		<tr> 
+		     <td colspan="4">No FAQs for event.</td>
+        </tr>
+	<% else %>
+	     <% faqs.each do |faq| %>
+	      <tr id='faq_id_<%= faq.id %>'>
+	         <td><%=simple_format h faq.text %></td>
+	         <td><%=h faq.visibility %></td>
+	         <td><%= faq.children_count %></td>
+	         <td><%= d = faq.date_of_newest_child; d.nil? ? "No replies" : time_ago_in_words(d) + " ago" %>
+	         <td><%= link_to_function 'Edit', "faq_modal(#{faq.id}, 'Edit FAQ', #{faq.parent_id} )" %>
+			     <%= link_to 'View', faq_path(faq) %>
+				 <%= link_to_delete_modal(faq) %>
+			 </td>
+	      </tr>
+	      <% end %>      
+	<% end %>
+   </tbody>
+</table>

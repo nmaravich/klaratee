@@ -1,0 +1,83 @@
+<%
+# Gives you the auth token.  You need that bad boy in order to do a DELETE / POST
+# requests. Its a cross site scripting defense built in to rails.
+# http://caboo.se/doc/classes/ActionController/RequestForgeryProtection/ClassMethods.html %>
+<%= javascript_tag "token = '#{form_authenticity_token}'" %>
+<%= render :partial => "template_dialog" %>
+<%= render :partial => "template_column_dialog" %>
+<%= render :partial => "shared/confirm_dialog" %>
+
+<% form_for :event, :url => {:action => "index" }, :html => { :method => 'get' } do |f| %>
+<div class="heading">
+<div class="chromestyle" id="chromemenu">
+  <ul>
+	<li class="custom">
+  	<%= render :partial => "shared/event_selector" %>
+	</li>
+  </ul>
+</div>
+</div>
+<% end %>
+	
+<div class="content-section">
+	
+<div class="templates-minor-color long-heading">
+<h3>Template Information</h3>
+</div>
+
+<% if ! @data_template.event.status_open? %>
+  This event is <%= "#{@data_template.event.status}" %>.  To make changes to a template, first re-open the event.
+<% end %> 
+
+<table width="100%">
+   <tr>
+      <td width="40%">
+         <table>
+            <tr>
+               <td>Name:</td>
+               <td id="template_name">
+                  <%= @data_template.name %>
+               </td>
+            </tr>
+            <tr>
+               <td>Description:</td>
+               <td colspan="3" id="template_description">
+                  <%= @data_template.description %>
+               </td>
+            </tr>
+         </table>
+      </td>
+      <td valign="top">
+         <table>
+            <tr>
+               <td>
+                  <%=link_to_function 'Edit', "template_modal( #{@data_template.id}, 'Edit Template' )" if @data_template.event.status_open? %>
+               </td>
+               <td>
+                  <%= link_to 'View template list', data_templates_path %>
+               </td>
+            </tr>
+         </table>
+      </td>
+   </tr>
+</table>
+<br/>
+<hr/>
+<style type="text/css" media="screen">
+	.ttt {
+		float:left;
+		width: 100%;
+		margin-bottom: 20px;
+		padding: 0px;
+	}
+</style>
+<div class="ttt">
+    <%= render :partial => "manage_template_columns" %>
+</div>
+
+<%= render :partial => "template_contacts"  %>
+<script>
+   make_sortable('sortable');
+</script>
+
+</div>

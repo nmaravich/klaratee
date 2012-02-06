@@ -1,0 +1,78 @@
+<%
+# Gives you the auth token.  You need that bad boy in order to do a DELETE / POST
+# requests. Its a cross site scripting defense built in to rails.
+# http://caboo.se/doc/classes/ActionController/RequestForgeryProtection/ClassMethods.html 
+%>
+<%= javascript_tag "token = '#{form_authenticity_token}'" %>
+<%= render :partial => "template_dialog" %>
+<%= render :partial => "/shared/confirm_dialog" %>
+
+<% form_for :event, :url => {:action => "index" }, :html => { :method => 'get' } do |f| %>
+<div class="heading">
+<div class="chromestyle" id="chromemenu">
+  <ul>
+   <% if @selected_event.nil? || @ea_events.empty? %>
+     <li><%=link_to_function "<img src='images/add.png' /> Add New Template", "ajax_message_handler('You must first select an event in the selector below.', 'warn')" %></li>
+   <% elsif @selected_event.status_open? %>
+     <li><%=link_to_function "<img src='images/add.png' /> Add New Template", "template_modal(null, 'New Template')" %></li>
+   <% end %> 
+	<li class="custom">
+  	<%= render :partial => "shared/event_selector" %>
+	</li>
+  </ul>
+</div>
+</div>
+<% end %>
+
+<div class="content-section">
+	
+<div class="templates-minor-color long-heading">
+<h3>My Templates</h3>
+</div>
+<div>
+   <% if ! (@selected_event.nil? || @ea_events.empty?) && ! @selected_event.status_open? %>
+     This event is <%= "#{@selected_event.status}" %>.  To make changes to a template, first re-open the event.
+   <% end %> 
+</div>
+<table id="template-list">
+   <thead>
+      <tr>
+         <th>Name</th>
+         <th>Description</th>
+		 <th>Creator</th>
+		 <th>Last Updated By</th>
+         <% if @selected_event.nil? %>
+         <th>Event</th>
+         <% end %>
+      </tr>
+   </thead>
+   <tbody>
+      <% @ea_data_templates.each do |data_template| %>
+      <tr class="<%= cycle('oddrow', 'evenrow') %>" id='data_template_id_<%= data_template.id %>'>
+         <td>
+            <%=h data_template.name %>
+         </td>
+         <td>
+            <%=h data_template.description %>
+         </td>
+		 <td><%= h data_template.creator._?.login %></td>
+		 <td><%= h data_template.updater._?.login %></td>
+         <% if @selected_event.nil? %>
+         <td>
+            <%=h data_template.event.name %>
+			<%= "<em>(#{data_template.event.status})</em>" if ! data_template.event.status_open? %>
+         </td>
+         <% end %>
+		 
+         <td>
+            <%= link_to 'View', edit_data_template_path(data_template) %>
+         </td>
+         <td>
+            <%= link_to_delete_modal(data_template, 'data_template') if data_template.event.status_open? %>
+         </td>
+      </tr>
+      <% end %>
+   </tbody>
+</table>
+
+</div>

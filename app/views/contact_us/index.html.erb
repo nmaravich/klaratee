@@ -1,0 +1,30 @@
+<%= javascript_include_tag "/javascripts/jquery.NobleCount.min.js" %>
+<style>
+   .go_red { color: red; }
+   .go_green { color: green; }
+</style>
+<script>
+   	$(document).ready(function () {
+       	$('#contact_us_body').NobleCount('#char_counter', {
+   		    on_negative: 'go_red',
+   		    on_positive: 'go_green',
+   		    max_chars: 400
+   		});
+     });
+</script>
+<div class="content-section">
+   <% form_for(:contact_us, :url => contact_us_path) do |form| %>
+   <p>
+      <%= form.label :subject %>: <%= form.select(:subject, ['Feature Request', 'Report a Problem', 'Just say hi!']) %>
+   </p>
+   <p>
+      <%= form.text_area :body, :cols => 60, :rows => 10 %>
+      <br/>
+      <br>
+      <span id='char_counter'></span>&nbsp;characters remaining remaining
+   </p>
+   <p>
+      <%= form.submit "Send" %>
+   </p>
+   <% end %>
+</div>

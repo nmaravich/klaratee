@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+      <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+      <title>Klaratee: <%= controller.action_name %></title>
+      <link type="image/x-icon" rel="icon" href="/images/klaratee-favicon.ico">
+      <link type="image/x-icon" rel="shortcut icon" href="/images/klaratee-favicon.ico">
+      <%= stylesheet_link_tag 'styles' %>
+      <style>
+         
+         div#main-container {
+             margin: auto;
+             background-color: #FFF;
+             text-align: center;
+             width: 300px;
+         }
+         
+         #login-container {
+             border: thin solid;
+             border-color: black;
+             text-align: left;
+             background-color: #FFF;
+             width: 300px;
+             height: 300px;
+             margin: 100px 0px 0px 0px;
+             padding: 7px;
+             float: left;
+         }
+         
+         #form-controls label {
+             width: 23%;
+             text-align: left;
+             margin: 0px 0px 0px 40px;
+         }
+         
+         #form-controls input[type =
+         'text'] {
+             margin: 0px 0px 10px 0px;
+         }
+         
+         #form-controls .indent {
+             margin: 5px 5px 20px 105px;
+         }
+      </style>
+   </head>
+   <body onload="document.getElementById('login').focus();">
+   	    <div class="content-section">
+      <p style="color: green">
+		          <% unless flash[:warn].nil? %><div id="warning-box"><%= flash[:warn] %></div><% end %>
+         <% unless flash[:notice].nil? %><div id="notice-box"><%= flash[:notice] %></div><% end %>
+         <% unless flash[:error].nil? %><div id="error-box"><%= flash[:error] %></div><% end %>
+
+      </p>
+	  </div>
+      <div id="main-container">
+         <div id="login-container">
+            <%= yield %>
+         </div>
+      </div>
+   </body>
+</html>

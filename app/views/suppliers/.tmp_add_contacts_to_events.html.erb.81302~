@@ -1,0 +1,138 @@
+<script>
+    
+    $(document).ready(function(){
+        //			$('#test').hide();
+    });
+    
+    
+</script>
+<style type="text/css" media="screen">
+    
+    #sub-nav {
+        margin: -15px 0px 0px 20px;
+        padding: 0px 0px 0px 0px;
+    }
+    
+    #link-block {
+        margin: 0px 0px 3px 0px;
+        text-align: right;
+        /*
+         background-color: red;
+         */
+    }
+    
+    /* A genuine HR tag has a gap below it in IE that can't be controlled. */
+    #fake-hr {
+        border-bottom: solid #BDBDBD thin;
+        border-bottom-width: 2px;
+        margin: -10px 0px 5px 20px;
+    }
+    
+    table {
+        border: solid #BDBDBD thin;
+        border-width: 1px;
+        margin: 0px 0px 0px 0px;
+        padding: 0px 0px 0px 0px;
+    }
+    
+    table th {
+        font-size: 1.2em;
+        color: olive;
+    }
+    
+    .col-decor {
+        border-top: solid #BDBDBD thin;
+        border-top-width: 2px;
+    }
+    
+    table tr.evenrow {
+        background-color: white;
+    }
+    
+    table tr.oddrow {
+        background-color: #EFEFEF;
+    }
+    
+    #upload {
+        display: none;
+    }
+    
+</style>
+<h1>Suppliers</h1>
+<div id="fake-hr">
+    <div id="link-block">
+        <p>
+		<%= link_to 'Download', :controller => 'download' , :action => 'download_supplier_xls' %> &nbsp;|&nbsp;
+        <%= link_to_function( "Upload", "$('#upload').toggle()") %>
+        <div id="upload">
+            <% form_for (:upload_supplier,
+            :url => { :controller => 'upload', :action => 'supplier_xls'} ,
+            :html => {:multipart => true } ) do |form| %>
+            <%= form.file_field("supplier_file") %>
+            <%= submit_tag("Upload File") %>
+            <% end %>
+        </div>
+    </div>
+</div>
+
+<%= collection_select(:supplier, :id, @events, :id, :name, 
+    options ={:prompt => "-Select an Event"}, :class =>"event") %>
+
+
+
+<br/>
+<br/>
+<table cellpadding="3" cellspacing="1">
+    <tr>
+        <th>Company name</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Phone #</th>
+        <th>Email</th>
+        <th>Address 1</th>
+        <th>Address 2</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Zip</th>
+    </tr>
+    <% @suppliers.each do |supplier| %>
+    <tr class="<%= cycle('oddrow', 'evenrow') %>">
+        <td>
+            <%= link_to supplier.company_name, edit_supplier_path(supplier) %>
+        </td>
+        <td class="row-decor">
+            <%=h supplier.first_name %>
+        </td>
+        <td>
+            <%=h supplier.last_name %>
+        </td>
+        <td>
+            <%=h supplier.phone_number %>
+        </td>
+        <td>
+            <%=h supplier.email %>
+        </td>
+        <td>
+            <%=h supplier.address1 %>
+        </td>
+        <td>
+            <%=h supplier.address2 %>
+        </td>
+        <td>
+            <%=h supplier.city %>
+        </td>
+        <td>
+            <%=h supplier.state %>
+        </td>
+        <td>
+            <%=h supplier.zip %>
+        </td>
+        <!--
+        <td><%= link_to 'Show', supplier %></td>
+        <td><%= link_to 'Destroy', supplier, :confirm => 'Are you sure?', :method => :delete %></td>
+        -->
+    </tr>
+    <% end %>
+</table>
+<br/>
+<%= link_to 'New supplier', new_supplier_path %>

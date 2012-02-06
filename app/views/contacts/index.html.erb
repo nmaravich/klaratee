@@ -1,0 +1,54 @@
+<div class="heading">
+<div class="chromestyle" id="chromemenu">
+<ul>
+	<li><%=link_to "<img src='images/lorry.png' /> View All Suppliers",suppliers_path %></li>
+</ul>
+</div>
+</div>
+<div class="content-section">
+<div class="suppliers-minor-color long-heading">
+	<h3>Manage Template Contacts</h3>
+</div>
+<% form_for :event, :url => {:action => "index" }, :html => { :method => 'get' } do |f| %>
+<table>
+   <tr>
+      <td>
+         Event: <%= collection_select(:selected_event, :id, @ea_events, :id, :name, options ={:include_blank => "Show all"}, {:onchange => 'this.form.submit()'}) %>
+      </td>
+      <td>
+         Template: <%= collection_select(:selected_data_template, :id, @ea_data_templates, :id, :name, options={:include_blank => "Show all"}, {:onchange => 'this.form.submit()'}) %>
+      </td>
+   </tr>
+</table>
+<% end %>
+<br />
+
+<%= event_not_opened_warning %>
+
+<h3>Current Template Contacts</h3>
+
+<% cur_contacts = @selected_data_template.contacts rescue Array.new  %>
+<% if !@selected_data_template.nil? && !@selected_data_template.contacts.nil? %>
+  <%= render :partial => "contacts_list", :locals => { :contacts => cur_contacts, :contact_type => "current" } %>
+<% else %>
+     No contacts. Check event / template selection above
+<% end %>
+
+<br /><hr /><br />
+
+<%
+  # Only shows contacts ever IF a template is selected.  Otherwise we wouldn't know which template to add them too.
+%>
+
+<h3>Available Contacts</h3>
+  <% if !@available_contacts.nil? && !@available_contacts.empty? && !@selected_data_template.nil? && !@selected_data_template.contacts.nil?  %>
+      <%= render :partial => "/shared/will_paginate_pager", :locals=>{ :paging_object => @available_contacts } %>
+    	<%= render :partial => "contacts_list", :locals => { :contacts => @available_contacts, :contact_type => "available" } %>
+	<br />
+<% else %>
+    No contacts. Make sure you have a templated selected above first
+<% end %>
+
+</div><!-- end content-section --> 
+<br /><br />
+<%= render :partial => "/shared/confirm_dialog_customizable" %>

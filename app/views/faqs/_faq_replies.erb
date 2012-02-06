@@ -1,0 +1,12 @@
+<div id="faq-replies-<%= faq.id %>">
+	<% @replies = [faq]; @replies += faqs_for_user(faq.children.first) if faq.children_count > 0 %>
+    <% if ! @replies.empty? %>
+		<% filter_user_ids(@replies).each do |ch|  %>	
+			<div class="faq-reply-row faq-reply-<%= ch.visibility %>">
+				<div class="faq-reply-user"><%=h ch.user_id.nil? ? "FAQ" : ch.user._?.login %>: </div>				
+				<div class="faq-reply-when"><%= time_ago_in_words ch.created_at %> ago <%= insert_faq_edit_link(ch)%><%= insert_faq_delete_link(ch)%></div><br>
+			    <div class="faq-reply-text"><%=simple_format(h(ch.text), :class=>"faq-reply-#{ch.visibility}") %></div>		
+			</div>
+		<% end %>
+	<% end %>
+</div>

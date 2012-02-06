@@ -1,0 +1,84 @@
+<div class="heading">
+   <% form_for :event, :url => {:action => "index" }, :html => { :method => 'get' } do |f| %>
+   <%= hidden_field_tag 'show_item_audit', params[:show_item_audit] %>
+<div class="chromestyle" id="chromemenu">
+<ul>
+<li class="custom"><strong>Master Items</strong> for Event: <%= collection_select(:selected_event, :id, @ea_events, :id, :name, options={}, {:onchange => 'this.form.submit()'}) %>
+</li>
+	   <% if ! @selected_event.nil? && ! @selected_event.id.nil? %> 
+	     <li><%= link_to "<img src='images/excel_btn.gif' /> Export", {:controller => 'download' , :action => 'master_items_xls', :selected_event_id => @selected_event.id, :params => {:show_item_audit => params[:show_item_audit]}}, {:title => "Export Master Items to MS Excel File"} %></li>
+	   <% end %>  
+         <li><%= link_to "<img src='images/arrow_left.png' /> Back to Template Items", {:controller => 'items' , :action => 'index'} %></li>
+</ul>
+</div>
+   <% end %> 
+</div>
+
+<div class="content-section">
+	
+<div class="items-minor-color long-heading">
+	<h3>Master Items (All Templates)</h3>
+</div>	
+	
+   <% if @selected_event.nil? || @selected_event.id.nil? %>
+   No event selected<% elsif @selected_event.data_templates.size < 1 %>
+   Selected event has no templates<% elsif @sorted_cols.nil? || @sorted_cols.size < 1 %>
+   Selected event has no template columns defined<% else %>
+<div class="digg_pagination">
+  <div class="page_info">
+    <%= page_entries_info @items, :entry_name => 'master item' %>
+  </div>
+  <%= will_paginate @items, :container => false %>
+</div>
+     <div style="margin-bottom: 3px">
+     <% if params[:show_item_audit].nil? || params[:show_item_audit] == 'no' %>
+       <%= link_to '(Show item audit information)', {:overwrite_params => {:show_item_audit => 'yes'}} %> 	
+     <% else %>
+       <%= link_to '(Hide item audit information)', {:overwrite_params => {:show_item_audit => 'no'}} %>    	
+     <% end %>
+	 </div>
+   <table cellspacing="1" id="items-list">
+      <tr>
+         <% if ! params[:show_item_audit].nil? && params[:show_item_audit] == 'yes' %>	     	
+           <th class="system_col"><%= link_to 'Created By', {:overwrite_params => {:sort_by => 'created_by', :page => 1, :sort_type => (params[:sort_by] == 'creator_id' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+           <th class="system_col"><%= link_to 'Created', {:overwrite_params => {:sort_by => 'created_at', :page => 1, :sort_type => (params[:sort_by] == 'created_at' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+           <th class="system_col"><%= link_to 'Last Updated By', {:overwrite_params => {:sort_by => 'last_updated_by', :page => 1, :sort_type => (params[:sort_by] == 'last_updated_by' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+           <th class="system_col"><%= link_to 'Updated', {:overwrite_params => {:sort_by => 'updated_at', :page => 1, :sort_type => (params[:sort_by] == 'updated_at' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+         <% end %>
+         <th class="system_col"><%= link_to 'Template', {:overwrite_params => {:sort_by => 'template_name', :page => 1, :sort_type => (params[:sort_by] == 'template_name' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+         <% @sorted_cols.each do |col| %>
+           <th><%= link_to col[0], {:overwrite_params => {:sort_by => col[3], :page => 1, :sort_type => (params[:sort_by] == col[3] && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+         <% end %>
+      </tr>
+        <%if ! @items.nil?
+          @items.each do |i| %>
+      <tr class='<%= cycle('oddrow','evenrow') %>'>      	
+         <% if ! params[:show_item_audit].nil? && params[:show_item_audit] == 'yes' %>	     	
+      	    <td><%=h i.created_by %><%= i.surrogate_creator_id.nil? ? '' : (' (via ' + i.created_by_sgt + ')') %></td>
+      	    <td><%=h i.created_at.in_time_zone.strftime("%m/%d/%Y %I:%M%p %Z") %></td>
+      	    <td><%=h i.last_updated_by %><%= i.surrogate_updater_id.nil? ? '' : (' (via ' + i.last_updated_by_sgt + ')') %></td>
+      	    <td><%=h i.updated_at.in_time_zone.strftime("%m/%d/%Y %I:%M%p %Z") %></td>
+         <% end %>
+         <td>
+			<%= i.template_name %>
+         </td>
+         <% @sorted_cols.each do |col| %>
+         <td>
+            <% if ! @template_cols_by_template_id[i.my_template_id.to_i].include?(col[3]) %>
+				---
+	        <% else %>
+			  <%=
+			     (i.send(col[3])) == 'Null' ? '' : i.send(col[3])
+			  %>
+			<%end%>
+         </td>
+         <% end %>
+      </tr>
+          <% end %>
+        <% end %>
+   </table>
+<div class="digg_pagination">
+  <%= will_paginate @items, :container => false %>
+</div>   
+   <% end %>
+</div>

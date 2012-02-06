@@ -1,0 +1,20 @@
+<%= @safety_text %>
+
+You have been invited to the <%= @invited_to_template %> template of the <%= @invited_to_event %> event.
+
+To get started, you must first click the link below to activate your account:
+   <%= @url %>
+
+After clicking the link above, you will be able to access any events and view templates to which you have been invited.
+______________________________________________________________________________________________
+______________________________________________________________________________________________
+
+To access your account (only AFTER activating by clicking above) use the following credentials when
+logging in at : <%= @loginurl %>
+  Username: <%= @user.login %>
+  Password: <%= @user.password %>
+
+Note: If you would like to change the system generated password that you have been given, 
+      please use the forgot password link on the main login screen.
+
+If you have any questions send an email to the Klaratee support team: <%= @support_email %>

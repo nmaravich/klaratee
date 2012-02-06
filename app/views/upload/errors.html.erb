@@ -1,0 +1,48 @@
+<div class="heading">
+<div class="chromestyle" id="chromemenu">
+<ul>
+  <li><%= link_to "<img src='images/arrow_left.png'/> Back to Import History", :controller => 'upload', :action => 'index' %></li>
+   <li><%= link_to "<img src='images/arrow_left.png'/> Back to Items", :controller => 'items', :action => 'index' %></li>
+</ul>
+</div>
+</div>
+<div class="content-section">
+	
+<div class="items-minor-color long-heading">
+	<h3>Import Errors for: <%=h @result.filename%></h3>
+</div>
+	<h5>Uploaded: <%=h @result.created_at.in_time_zone.strftime("%m/%d/%Y %I:%M%p %Z") %> </h5>
+   <% if ! @errors.nil? && ! @errors.empty? %>
+<div class="digg_pagination">
+  <div class="page_info">
+    <%= page_entries_info @errors, :entry_name => 'import error' %>
+  </div>
+  <%= will_paginate @errors, :container => false %>
+</div>
+   <% end %>
+
+   <table width="100%" cellspacing="0" cellpadding="0" id="items-list">
+      <tr>
+         <th><%= link_to "Excel Sheet", {:overwrite_params => {:sort_by => 'excel_sheet', :page => 1, :sort_type => (params[:sort_by] == 'excel_sheet' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+         <th><%= link_to "Excel Line#", {:overwrite_params => {:sort_by => 'excel_line', :page => 1, :sort_type => (params[:sort_by] == 'excel_line' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+         <th><%= link_to "Column", {:overwrite_params => {:sort_by => 'template_col_name', :page => 1, :sort_type => (params[:sort_by] == 'template_col_name' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+         <th><%= link_to "Entered Value", {:overwrite_params => {:sort_by => 'entered_value', :page => 1, :sort_type => (params[:sort_by] == 'entered_value' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+         <th><%= link_to "Error", {:overwrite_params => {:sort_by => 'error_message', :page => 1, :sort_type => (params[:sort_by] == 'error_message' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+      </tr>
+        <% @errors.each do |err| %>
+      <tr class="<%= cycle('oddrow', 'evenrow') %>">
+	      <td><%=h err.excel_sheet %></td>
+	      <td><%=h err.excel_line %></td>
+	      <td><%=h err.template_col_name %></td>
+	      <td><%=h err.entered_value %></td>
+	      <td><%=t err.error_message, :column => err.template_col_name, :entered => err.entered_value,
+                                      :allowed => @possible_values_by_col_id[err.data_template_column_id] %></td>
+      </tr>
+       <% end %>
+   </table>
+   <% if ! @errors.nil? %>
+<div class="digg_pagination">
+  <%= will_paginate @errors, :container => false %>
+</div>
+   <% end %>
+</div>

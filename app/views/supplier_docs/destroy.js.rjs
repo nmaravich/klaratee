@@ -1,0 +1,1 @@
+page.remove "supplier_doc_#{@supplier_doc.id}" 

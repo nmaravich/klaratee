@@ -1,0 +1,70 @@
+<%
+# Gives you the auth token.  You need that bad boy in order to do a DELETE / POST
+# requests. Its a cross site scripting defense built in to rails.
+# http://caboo.se/doc/classes/ActionController/RequestForgeryProtection/ClassMethods.html %>
+<%= javascript_tag "token = '#{form_authenticity_token}'" %>
+
+<div class="heading">
+<div class="chromestyle" id="chromemenu">
+<ul>
+	<li><%= link_to "<img src='../images/arrow_left.png' /> Back To Events", {:controller => 'events' , :action => 'index'} %></li>
+	<li><%= link_to "<img src='../images/excel_btn.gif' /> Export", {:controller => 'download' , :action => 'global_activity_xls'} %></li>
+</ul>
+</div>
+</div>
+
+<div class="content-section">
+	
+<div class="events-minor-color long-heading">
+<h3>Global Activity Report</h3>
+</div>
+
+<div class="digg_pagination">
+  <div class="page_info">
+    <%= page_entries_info @audit_records, :entry_name => 'activity record' %>
+  </div>
+  <%= will_paginate @audit_records, :container => false %>
+</div>	
+<table id="event-list">
+   <thead>
+      <tr>
+         <th><%= link_to "User", {:overwrite_params => {:sort_by => "0", :page => 1, :sort_type => (params[:sort_by] == '0' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+         <th><%= link_to "Surrogate", {:overwrite_params => {:sort_by => "6", :page => 1, :sort_type => (params[:sort_by] == '6' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+         <th><%= link_to "Supplier", {:overwrite_params => {:sort_by => "1", :page => 1, :sort_type => (params[:sort_by] == '1' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+         <th><%= link_to "Action", {:overwrite_params => {:sort_by => "2", :page => 1, :sort_type => (params[:sort_by] == '2' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+         <th><%= link_to "Time", {:overwrite_params => {:sort_by => "3", :page => 1, :sort_type => (params[:sort_by] == '3' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+		 <th><%= link_to "Event", {:overwrite_params => {:sort_by => "4", :page => 1, :sort_type => (params[:sort_by] == '4' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+		 <th><%= link_to "Template", {:overwrite_params => {:sort_by => "5", :page => 1, :sort_type => (params[:sort_by] == '5' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+      </tr>
+   </thead>
+   <tbody>
+      <% @audit_records.each do |a_record| %>
+      <tr class="<%= cycle('oddrow', 'evenrow') %>">
+         <td>
+            <%=h a_record.user_name %>
+         </td>
+         <td><%= h a_record.surrogate_parent_login %>
+         <td>
+            <%=h a_record.supplier_name %>
+         </td>
+         <td>
+            <%=h AuditRecord::CATEGORY_TEXT[a_record.category] %>
+         </td>
+         <td>
+            <%=h a_record.time.in_time_zone.strftime("%m/%d/%Y %I:%M%p %Z") %>
+         </td>
+		 <td>
+            <%=h a_record.event_name %>
+         </td>
+		 <td>
+            <%=h a_record.template_name %>
+         </td>
+      </tr>
+      <% end %>
+   </tbody>
+</table>
+<div class="digg_pagination">
+  <%= will_paginate @audit_records, :container => false %>
+</div>	
+<br/>&nbsp;
+</div>

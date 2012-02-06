@@ -1,0 +1,113 @@
+<%
+# Gives you the auth token.  You need that bad boy in order to do a DELETE / POST
+# requests. Its a cross site scripting defense built in to rails.
+# http://caboo.se/doc/classes/ActionController/RequestForgeryProtection/ClassMethods.html %>
+<%= javascript_tag "token = '#{form_authenticity_token}'" %>
+<style type="text/css">
+	.contact-container{
+		float: left;
+		background-color: #EFEFEF;
+		border: 1px solid gray;
+		margin: 4px 2px 0px 0px;
+		padding: 3px;
+	}
+	.contact-fields {
+		width: 180px; 
+		float: left;
+		margin: 5px 2px 0px 0px;
+	}
+	.contact-fields label {
+		width: 65px;
+		text-align: right;
+		font-weight: bold;
+	}
+	#link-area {
+		width: 110px;
+		float: left;
+		padding: 2px;
+	}
+</style>
+
+<div class="content-section">
+	<%= render( :partial => "add_supplier", :object => @contact ) %>
+</div>
+<div class="content-section">
+	<%= render_contact_area(@supplier, 'primary') %>
+<div>
+<div class="content-section">
+	<%= render_contact_area(@supplier, 'secondary') %>
+<div>
+<div class="content-section">
+	<%= special_section_heading('Notes') %>
+	<%= action_section('Add New Note', 'add-notes') %>
+	<div id="add-notes" class="hide">
+	   <br/>
+	   <%= render :partial => "add_supplier_note" %>
+	</div>
+	<div id="notes">
+	   <% if @supplier.supplier_notes.size > 0 %>
+	   <br/>
+	   <%= render( :partial => "supplier_notes", :collection => @supplier.supplier_notes ) %>
+	   <br/>
+	   <% else %>
+	   	<div class="subtle_msg"><p>No Notes</p></div>
+	   <% end %>
+	</div>
+</div>
+<div class="content-section">
+	<%= special_section_heading('Attachments') %>
+	<%= action_section('Add New Attachment', 'docs') %>
+	<div id="docs" class="hide">
+	   <p>
+	      <% form_for(:supplier_doc, :url => { :controller => 'suppliers',  :action => 'add_document'} , :html => { :multipart => true, :target=>'upload_frame' } ) do |f| -%>
+	      <%= f.hidden_field :supplier_id, :value=> @supplier.id %>
+	      <p>
+	         <label for="supplier">File Path:</label>
+	         <%= f.file_field :uploaded_data, :size => 10 %><%= submit_tag 'Attach File' %>
+	      </p>
+	      <% end -%>
+	      <iframe id='upload_frame' name="upload_frame" style="width:1px;height:1px;border:0px" src="about:blank"></iframe>
+	   </p>
+	</div>
+</div>
+<div class="content-section">
+	<div id="document_list">
+	   <br/>
+	   <%= render( :partial => "supplier_documents", :collection => @supplier.supplier_docs ) %>
+	</div>
+</div>
+
+<%
+    # You can't get the height of a hidden div.  We need to know the height of the div with all the contact add
+    # stuff in it so we can tac on that much more space to the end of the page to avoid "breakthrough".  
+    # To get the height I clone that item but set it to be invisible.  Then get the height.  
+%>
+<script>
+   $(document).ready(function(){
+       $('.edit').bind('click', function(event){
+			id = '#' + event.target.id;
+			$(id).unbind('click'); //Prevents exception when clicking an already clicked textbox
+			// Clear the text from being in the text field after you click to edit.
+			if ( $(id).text() == 'Click to edit' && $(id).hasClass('subtle-text') ) {
+			     $('#'+ event.target.id).text('');
+			}
+           inline_edit_contacts(this, event.target.id);
+       });
+	   // Comment above
+       var copied_elem = $('#primary_contact').clone().attr("id", false).css({
+           visibility: "hidden",
+           display: "block",
+           position: "absolute"
+       });
+	   
+       $("body").append(copied_elem);
+       var scroller_height = copied_elem.height();
+       var scroller_width = copied_elem.width();
+       copied_elem.remove();
+
+       var pageHeight = $(document).height();
+	   // buffer in there for some other elements that don't change height.
+       $("div#main-content").css('height', pageHeight+100+(scroller_height*2));
+   });
+</script>
+

@@ -1,0 +1,85 @@
+<% remote_form_for @supplier,:update => {:failure=>"alt-message"}  do |f| %>
+<div class="suppliers-minor-color long-heading">
+<h3 class="green">Supplier Information</h3>
+</div>
+<%= f.error_messages %>
+<table width="100%">
+   <tr>
+      <td width="40%" valign="top">
+         <table width="100%">
+            <tr>
+               <td width="25%">
+                  <%= f.label :company_name, "Supplier Name" %>
+               </td>
+               <td width="75%">
+                  <%= f.text_field :company_name %>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <%= f.label "Address" %>
+               </td>
+               <td>
+                  <%= f.text_field :address1 %>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <%= f.label :city %>
+               </td>
+               <td>
+                  <%= f.text_field :city %>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <%= f.label :state %>
+               </td>
+               <td>
+                  <%= f.text_field :state %>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <%= f.label :zip, "Postal Code" %>
+               </td>
+               <td>
+                  <%= f.text_field :zip, :size => 5 %>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <%= f.label :phone_number, "Phone" %>
+               </td>
+               <td>
+                  <%= f.text_field :phone_number %>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <%= f.label :fax, "Fax" %>
+               </td>
+               <td>
+                  <%= f.text_field :fax %>
+               </td>
+            </tr>
+         </table>
+      </td>
+      <td width="60%" valign="top">
+         <table width="50%">
+			<%  @supplier.dynamo_fields do |field_name| %>
+                <tr>
+                	<td><%= field_name %>:</td>
+					<td><%= f.text_field field_name %></td>
+				</tr>
+            <%  end %>
+			<tr>
+				<td>
+					<%= f.submit %>
+				</td>
+			</tr>
+         </table>
+      </td>
+   </tr>
+</table>
+<% end %>

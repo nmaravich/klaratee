@@ -1,0 +1,98 @@
+<div class="templates-minor-color long-heading">
+   <h3>Template Columns</h3>
+</div>
+<div class="content-section">
+   <%= error_messages_for @dt_col %>
+   <% if @data_template.event.status_open? %>
+   <div id="col_list">
+      <ul id="sortable">
+         <% @data_template.data_template_columns.each do |col| %>
+         <% domid = "col_#{col.id}" %>
+         <li class="sorter" id='<%= domid %>'>
+            <div class="col-handle">
+               <%= image_tag "template-col-handle.gif", :alt => 'draggable column' %>
+            </div>
+            <div class="action-group">
+               <%
+               possible_vals = col.data_template_column_possible_values.collect{|pv| pv.possible_value}.join(',') || ' ' %>
+               <%= link_to_function image_tag("template-col-edit.png", :title => 'Edit column', :border=>0), "template_column_modal(#{col.id} , 'Edit Template Column', '#{possible_vals}' )" %>
+               <%= link_to_function image_tag("template-col-delete.png", :title => 'Delete column', :border=>0), "template_column_confirm(#{@data_template.id},#{col.id})" %>
+            </div>
+            <div class="col-attrs">
+               <span id='col_name_<%= col.id %>' class='name'><%= col.name %></span>
+               <br/>
+               <span id='col_type_<%= col.id %>' class='type' colType='<%= col.col_type %>'><%=t "column_types.#{col.col_type}" %></span>
+               <br/>
+               <span id="col_required_<%= col.id %>" class='required'><%=h col.required_as_text %>
+               </span>
+            </div>
+         </li>
+         <% end %>
+      </ul>
+   </div>
+   <br/>
+   <div id="add_columns">
+      <br/>
+      <a href="#" onclick="$('#add-many').toggle();">Add many columns</a>&nbsp;&nbsp;<%=link_to_function 'Add a column', "template_column_modal( null, 'Create Template Column' )" %>
+      <div id="add-many" class="hide">
+         <% form_for :data_template_column,  :url => { :controller => "data_template_columns", :action => "quick_create" } do |h| %>
+         <%= hidden_field_tag :data_template_id, @data_template.id %>
+         <table>
+            <tr>
+               <td>
+                  <%= text_area_tag(:quick_add, nil, :size => "40x3") %>
+               </td>
+               <td>
+                  <%= h.submit 'Add' %>
+               </td>
+            </tr>
+            <tr>
+               <td colspan="2">Comma separated list of columns.</td>
+            </tr>
+         </table>
+         <% end %>
+      </div>
+      <br/>
+   </div>
+   <% else %>
+     <table>
+     	 <thead>
+	      <tr>
+	         <th>Name</th>
+	         <th>Type</th>
+	         <th>Required?</th>
+	      </tr>
+	   	</thead>
+     	
+	 <% @data_template.data_template_columns.each do |col| %>
+	     <tr class="<%= cycle('oddrow', 'evenrow') %>" >
+	     	<td><%=h col.name %></td>
+	     	<td><%=t "column_types.#{col.col_type}" %></td>
+	     	<td><%=h col.required_as_text %></td>
+	     </tr>
+		    
+	   <% end %>
+
+     </table>
+   <% end %>
+</div>
+<script>
+   $("#sortable").sortable({
+       update: function(event, ui){
+		   var col_id = ui.item.context.id.split("_")[1];
+		   var result = $("#sortable").sortable('toArray');
+		   var pos = jQuery.inArray(ui.item.context.id, result) + 1;
+		   
+           $.ajax({
+		   	   type: "PUT",
+               url: "/data_template_columns/" + col_id + "/update_order",
+               data: { 
+			     'data_template_column[order]' : pos 
+				},
+               success: function(msg){
+                   ajax_message_handler('Order Updated', 'notice');
+               }
+           });
+       }
+   });
+</script>

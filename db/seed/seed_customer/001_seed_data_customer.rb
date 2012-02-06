@@ -1,0 +1,2 @@
+# Users - Auxiliary table (If you update this, update the corresponding users in the master seed)
+AuxUser.create!(:id => 1, :creator_id => 1, :login => "klaratee", :email => "admin@avadatum.com", :first_name => "Klara", :last_name => "Tee")

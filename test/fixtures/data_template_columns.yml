@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  data_template_id: 
+  type: 
+  mask: 
+  required: 
+
+two:
+  data_template_id: 
+  type: 
+  mask: 
+  required: 

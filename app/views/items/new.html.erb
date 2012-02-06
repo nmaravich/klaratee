@@ -1,0 +1,71 @@
+<div class="heading">
+<div class="chromestyle" id="chromemenu">
+<ul>
+   <% form_for :event, :url => {:action => "index" }, :html => { :method => 'get' } do |f| %>
+   <li class="custom">Event: <%= collection_select(:selected_event, :id, @ea_events, :id, :name, options ={:include_blank => "Any Event"}, {:onchange => 'this.form.submit()'}) %>
+   Templates: <%= collection_select(:selected_data_template, :id, @ea_data_templates, :id, :name, options={}, {:onchange => 'this.form.submit()'}) %></li>
+   <% end %>
+</ul>
+</div>
+</div>
+
+<div class="content-section">
+
+<div class="long-heading items-minor-color">
+<h3>Create Item</h3>
+</div>
+
+<% 
+  if( !@dt_cols.empty?)
+    form_tag('/items', :class => 'uniForm', :method => :post) do 
+%>
+      
+  <%= 
+    # Not sure how to do this ... maybe show the flash[:error] here?
+    # f.error_messages 
+  %>
+
+  	<%= hidden_field_tag "dt_id" , @dt_cols.first.data_template.id %>
+   <fieldset class="inlineLabels"> 
+	
+   <% @dt_cols.each { |col| %>  
+	  <div class="ctrlHolder"><label><%= col.name %></label>
+      <% pos_vals = col.data_template_column_possible_values.collect{|p_val| p_val.possible_value} %>
+      <% if col.col_type == 'select_one' %>
+        <%= select_tag "#{col.name}", options_for_select(pos_vals)  %>
+		<p class="formHint"></p>
+      <% elsif col.col_type == 'select_many' %> 
+        <%= select_tag "#{col.name}", options_for_select(pos_vals), {:multiple=>true }  %>
+		<p class="formHint">Use Ctrl key + mouse click to select multiple values</p>
+      <% else %>
+	    <%
+		# set up uniForm(http://sprawsm.com/uni-form/) javascript validation classes
+		valClasses = []
+		valClasses.push 'required' unless !col.required
+		valClasses.push 'validateInteger' unless col.col_type != 'int_value'			
+		valClasses.push 'validateNumber' unless col.col_type != 'decimal_value'
+		%>
+        <%= text_field_tag "#{col.name}", '', :size => 20, :class => "#{valClasses.join(' ')}" %>
+		<p class="formHint"></p>
+      <% end %>
+      </div>
+  <% } %>
+  	  <div class="ctrlHolder">
+        <%= submit_tag "Save", :onclick => "return update_hidden_and_submit()" %>
+		<p class="formHint"></p>
+	  </div>
+      </fieldset> 
+<% 
+     end # end form
+   else
+%> 
+    <p>No Template Selected</p> 
+<% end %>
+
+<script type="text/javascript">
+ $(function(){
+   $('form.uniForm').uniform();
+ });
+</script> 
+
+</div>

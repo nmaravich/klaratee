@@ -1,0 +1,30 @@
+<div class="contact-container" id="contact_<%= contacts.id  %>">
+	<div class="contact-fields">
+		<%= contact_field(contact, 'f_name', 'First Name') %>
+		<%= contact_field(contact, 'l_name', 'Last Name') %>
+		<%= contact_field(contact, 'title') %>
+	</div>	
+	<div class="contact-fields">
+		<%= contact_field(contact, 'address1', 'Address 1') %>
+		<%= contact_field(contact, 'address2', 'Address 2' ) %>
+		<%= contact_field(contact, 'city') %>
+		<%= contact_field(contact, 'state') %>
+		<%= contact_field(contact, 'zip') %>
+	</div>	
+	<div class="contact-fields">
+		<%= contact_field(contact, 'email') %>
+		<%= contact_field(contact, 'phone_number', 'Phone') %>
+		<%= contact_field(contact, 'fax') %>
+	</div>	
+	<div class="contact-fields">
+		<% contact.dynamo_fields do |field_name| %>
+			<%= contact_field(contact, field_name) %>
+    	<%  end %>
+	</div>
+	<div id="link-area">
+		<%=link_to_function 'Delete', "delete_supplier_contact_confirm(#{@supplier.id}, #{contacts.id})" %>
+		<%= link_to 'Edit', edit_contact_path( Contact.find(contact.id) ) %>
+		<%= surrogate_link(contact.user) %>
+	</div>
+</div>
+<%= render :partial => "/shared/confirm_dialog" %>

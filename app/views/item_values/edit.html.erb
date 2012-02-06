@@ -1,0 +1,24 @@
+<h1>Editing item_value</h1>
+
+<% form_for(@item_value) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :data_template_column_id %><br />
+    <%= f.text_field :data_template_column_id %>
+  </p>
+  <p>
+    <%= f.label :value %><br />
+    <%= f.text_field :value %>
+  </p>
+  <p>
+    <%= f.label :item_id %><br />
+    <%= f.text_field :item_id %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @item_value %> |
+<%= link_to 'Back', item_values_path %>

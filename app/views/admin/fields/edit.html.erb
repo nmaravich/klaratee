@@ -1,0 +1,34 @@
+<div class='content-section'>
+<div class="admin-minor-color long-heading">
+<h3>Edit <%= @dynamo_model %> Model</h3>
+</div>
+<br />
+<h3>Custom Fields</h3> 
+<p>Create/Delete fields to suit your needs.</p>
+<table>
+<% dump_dynamo_attributes(@dynamo_model).each do |attr| %>
+    <tr>
+	<td><%= attr %></td>
+    <td><%= dynamo_delete_attr_link(@dynamo_model, attr) %></td>
+	</tr>
+<% end %>
+</table>
+<p>Create New Attribute</p>
+<% form_tag({:action => 'create' }) do %>
+    <div>
+    	<%= hidden_field_tag 'model_name', "#{@dynamo_model.to_s}" %>
+    	<%= text_field_tag 'field_name' %>&nbsp;&nbsp;
+        <%= select_tag :field_type, options_for_select( Kernel.const_get(@dynamo_model.to_s)::VALID_FIELD_TYPES.keys ) %>
+        <%= submit_tag 'Add' %>
+    </div>
+<% end %>
+
+<br /><hr /><br />
+<h3>Standard Fields</h3>
+<p>These fields cannot be removed or modified.</p>
+<ul>
+<% dump_non_dynamo_attributes(@dynamo_model).each do |attr| %>
+    <li><%= @dynamo_model.human_attribute_name attr %></li>
+<% end %>
+</ul>
+</div>

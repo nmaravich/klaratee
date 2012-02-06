@@ -1,0 +1,36 @@
+<style type="text/css">
+    #multivalue {
+        display: none;
+    }
+</style>   
+<script>
+    $(function() {
+        $(document).ready(function() {
+            var val = $('#data_template_column_col_type').val();
+            $("#multivalue").hide();
+            if(val == "select_one" || val == "select_many") {
+                 $("#multivalue").show();
+            } 
+        });
+        $('#data_template_column_col_type').change(function() {
+            var val = $('#data_template_column_col_type').val();
+            $("#multivalue").hide();
+            if(val == "select_one" || val == "select_many") {
+                 $("#multivalue").show();
+            } 
+        });
+    });
+</script>
+
+<h1>Edit Column</h1>
+<br />
+<% form_for(@data_template_column) do |f| %>
+<%= f.error_messages %>
+    <%= f.text_field :name, :size => 15 %>
+    <%= f.select("col_type", options_for_select( DataTemplateColumn::TYPES, @data_template_column.col_type ))  %>
+    <span id="multivalue">
+        <%= text_area_tag 'possible_values', @data_template_column.data_template_column_possible_values.collect{|val| val.possible_value }.join(',') %>
+    </span>
+    <%= f.check_box :required %>		
+	<%= f.submit 'Update' %>
+<% end %>

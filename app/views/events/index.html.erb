@@ -1,0 +1,34 @@
+<%
+# Gives you the auth token.  You need that bad boy in order to do a DELETE / POST
+# requests. Its a cross site scripting defense built in to rails.
+# http://caboo.se/doc/classes/ActionController/RequestForgeryProtection/ClassMethods.html %>
+<%= javascript_tag "token = '#{form_authenticity_token}'" %>
+
+<div class="heading">
+<div class="chromestyle" id="chromemenu">
+<ul>
+	<li><%= link_to_function "<img src='images/date_add.png' /> Add New Event", "event_modal(null, 'Create Event')" %></li>
+  <% if has_role?(Role::BUYER.to_sym) || has_role?(Role::ADMIN.to_sym) %>
+	<li><%= link_to "<img src='images/chart_bar.png' /> Global Activity Report", {:controller => 'reports' , :action => 'global_activity'}, {:title => "Show user activity for all events."} %></li>
+	<li><%= link_to "<img src='images/cog.png' /> Global Settings", {:controller => 'system_settings' , :action => 'index'}, {:title => "Show global setting for all events."} %></li>
+  <% end %>
+</ul>
+</div>  
+</div>
+
+<div class="content-section">
+
+<div class="events-minor-color long-heading">
+<h3>My Events</h3>
+</div>
+
+<%= render :partial => "events_table", :locals => { :events => @events, :table_id => "event-list" } %>
+
+<br/>&nbsp;
+</div>
+
+<%
+# These contain the markup that will be used to show the modal dialogs
+# See application.js also. %>
+<%= render :partial => "/shared/confirm_dialog" %>
+<%= render :partial => "event_dialog" %>

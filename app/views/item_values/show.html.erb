@@ -1,0 +1,18 @@
+<p>
+  <b>Data template column:</b>
+  <%=h @item_value.data_template_column_id %>
+</p>
+
+<p>
+  <b>Value:</b>
+  <%=h @item_value.value %>
+</p>
+
+<p>
+  <b>Item:</b>
+  <%=h @item_value.item_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_item_value_path(@item_value) %> |
+<%= link_to 'Back', item_values_path %>

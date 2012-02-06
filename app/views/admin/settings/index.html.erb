@@ -1,0 +1,23 @@
+<div class="content-section">
+<div class="admin-minor-color long-heading">
+<h3>Default System Settings</h3>
+</div>
+
+<table>
+  <tr>
+    <th>Setting</th>
+	<th>Value</th>
+	<th> </th>
+  </tr>
+
+<% @settings.each do |setting| %>
+  <tr>
+	<td><%=t setting.key %></td>
+	<td><%=h setting.value %></td>
+    <td><%= link_to 'Edit', {:action => 'edit', :id => setting.id}, {:title => "Edit Setting"} %></td>
+  </tr>
+<% end %>
+
+</table>
+
+</div>

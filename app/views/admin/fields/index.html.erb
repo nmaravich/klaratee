@@ -1,0 +1,17 @@
+<div class="content-section">
+<div class="admin-minor-color long-heading">
+<h3>Field Admin</h3>
+</div>
+
+<div>
+    <% form_tag({:action => 'edit' }) do %>
+        <div>
+        	<%= select_tag :model_name, options_for_select(@dynamo_models) %>
+        </div>
+    	<div>
+            <%= submit_tag 'Manage Fields' %>
+		</div>
+	<% end %>
+</div>
+
+</div>

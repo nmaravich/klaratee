@@ -1,0 +1,20 @@
+SoftDelete
+==========
+
+This is a small plugin for a DRY implementation of soft delete.
+
+
+Example
+=======
+
+Just add the plugin to vendor/plugins : git clone git@github.com:sumanmukherjee03/soft_delete.git
+
+For any model in which you want to implement a soft delete, add a "deleted" column with data type "boolean" through migration and then include a module called "SoftDelete" in your model like this : include SoftDelete. 
+
+And thats it!
+
+If for any of your models you create a "deleted" column having type "boolean", then on calling destroy on the object of that model, it will implement a soft delete.
+If you have not created a "deleted" column for a model, then it will fall back to a hard delete.
+
+
+Copyright (c) 2010 [name of plugin creator], released under the MIT license

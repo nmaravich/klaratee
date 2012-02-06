@@ -1,0 +1,51 @@
+<% unless error_messages_for(:user).empty? %>
+<div id="error-box">
+   <%= error_messages_for(:user) %>
+</div>
+<% end %>
+<p><b>Creating a user with this form will not send the user an email notification!</b></p>
+<div class="content-section">
+   <% form_for :user, :url => { :action => "create", :controller => "admin/users" } do |f| -%>
+   <p>
+      <label for="login">Login</label>
+      <br/>
+      <%= f.text_field :login %> (Min 5 characters.  Recommended first initial last name - john smith : jsmith )
+   </p>
+   <p>
+      <label for="email">First Name</label>
+      <br/>
+      <%= f.text_field :first_name %>
+   </p>
+   <p>
+      <label for="email">Last Name</label>
+      <br/>
+      <%= f.text_field :last_name %>
+   </p>
+   <p>
+      <label for="email">Email</label>
+      <br/>
+      <%= f.text_field :email %>
+   </p>
+   <p>
+      <label for="password">Password</label>
+      <br/>
+      <%= f.password_field :password %>
+   </p>
+   <p>
+      <label for="password_confirmation">Confirm Password</label>
+      <br/>
+      <%= f.password_field :password_confirmation %>
+   </p>
+   <p>
+      <% for role in @roles do %>
+      <br>
+      <%= radio_button_tag 'user[role_ids][]', role.id, @user.role_ids.include?(role.id) %>
+      <%= "#{role.name} - #{role.description}" %>
+      <% end %>
+      <%= hidden_field_tag 'user[role_ids][]', "" %>
+   </p>
+   <p>
+      <%= submit_tag 'Create User' %>
+   </p>
+   <% end -%>
+</div>

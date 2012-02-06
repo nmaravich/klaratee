@@ -1,0 +1,167 @@
+# Make sure to use new-style password hashing:
+# http://dev.mysql.com/doc/refman/5.0/en/old-client.html
+defaults: &defaults
+  adapter: mysql
+  encoding: utf8
+
+dev_defaults: &dev_defaults
+  <<: *defaults
+  adapter: mysql
+  encoding: utf8
+  username: klara_dev
+  password: k!ara_d3v
+# socket: /tmp/mysql.sock
+
+staging_defaults: &staging_defaults
+  <<: *defaults
+  username: klara_staging
+  password: k!arat33_stag1ng
+# socket: /var/lib/mysql/mysql.sock
+  
+
+prod_defaults: &prod_defaults
+  <<: *defaults
+  username: klara_prod
+  password: k!arat33_pr0d
+# socket: /var/lib/mysql/mysql.sock
+  
+
+#----------------------------
+# Development is for your local database 
+
+# The master database that contains users and company info.
+development:
+  <<: *dev_defaults
+  database: klaratee_development
+
+# Used when running some of the scripts that need root access 
+# Set to the login info for the local database you are using.
+deployer_development:
+  username: root
+  password: root
+
+#----------------------------
+# Staging is used for avadatum.com
+  
+staging:
+  <<: *staging_defaults
+  database: klaratee_staging
+
+deployer_staging:
+  username: root
+  password: NRGremR9zgXxw8Aa7bT5
+
+#----------------------------
+# Production is for klaratee.com
+
+production:
+  <<: *prod_defaults
+  database: klaratee_production
+
+# This is the production root password. Later this will be done differently of course.
+deployer_production:  
+  username: root
+  password: NRGremR9zgXxw8Aa7bT5
+
+#----------------------------
+
+#---------------------------- 
+# Customers 
+# In order to use rake tasks to deploy a customer you need to add the customer to the @valid_customers at the 
+# top of the file.
+# This is the customer database that you will work with in development and staging.
+# If you need to test with a specific customers data just load it in here.  
+klaratee_development_default:
+  <<: *dev_defaults  
+  database: klaratee_development_default
+
+klaratee_staging_default:
+  <<: *staging_defaults  
+  database: klaratee_staging_default
+
+klaratee_production_default:
+  <<: *prod_defaults  
+  database: klaratee_production_default
+
+# This is the customer database that you will work with in development and staging.
+# If you need to test with a specific customers data just load it in here.  
+klaratee_development_p3:
+  <<: *dev_defaults  
+  database: klaratee_development_p3
+
+klaratee_staging_p3:
+  <<: *staging_defaults  
+  database: klaratee_staging_p3
+
+klaratee_production_p3:
+  <<: *prod_defaults  
+  database: klaratee_production_p3
+
+klaratee_development_westinghouse:
+  <<: *dev_defaults  
+  database: klaratee_development_westinghouse
+
+klaratee_staging_westinghouse:
+  <<: *staging_defaults  
+  database: klaratee_staging_westinghouse
+
+klaratee_production_westinghouse:
+  <<: *prod_defaults  
+  database: klaratee_production_westinghouse
+
+klaratee_development_investors:
+  <<: *dev_defaults  
+  database: klaratee_development_investors
+
+klaratee_staging_investors:
+  <<: *staging_defaults  
+  database: klaratee_staging_investors
+
+klaratee_production_investors:
+  <<: *prod_defaults  
+  database: klaratee_production_investors
+
+klaratee_development_demo:
+  <<: *dev_defaults  
+  database: klaratee_development_demo
+
+klaratee_staging_demo:
+  <<: *staging_defaults  
+  database: klaratee_staging_demo
+
+klaratee_production_demo:
+  <<: *prod_defaults  
+  database: klaratee_production_demo
+
+klaratee_development_smithfield:
+  <<: *dev_defaults  
+  database: klaratee_development_smithfield
+
+klaratee_staging_smithfield:
+  <<: *staging_defaults  
+  database: klaratee_staging_smithfield
+
+klaratee_production_smithfield:
+  <<: *prod_defaults  
+  database: klaratee_production_smithfield
+
+klaratee_production_edmc:
+  <<: *prod_defaults  
+  database: klaratee_production_edmc
+
+klaratee_staging_edmc:
+  <<: *staging_defaults  
+  database: klaratee_staging_edmc
+
+klaratee_development_edmc:
+  <<: *dev_defaults
+  database: klaratee_development_edmc
+
+#----------------------------
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  database: klaratee_test
+  <<: *dev_defaults

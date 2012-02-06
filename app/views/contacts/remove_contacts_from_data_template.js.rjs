@@ -1,0 +1,7 @@
+existing_contacts = (@selected_data_template.contacts.map(&:id).empty?) ? 0 : @selected_data_template.contacts.map(&:id) 
+@available_contacts = Contact.paginate(:all, :page => params[:page], :conditions => ["id NOT IN (?)", existing_contacts ] )
+page.replace_html('current', :partial => "contacts_list", :locals => {:contacts=> @selected_data_template.contacts, :contact_type => "current"})
+page.replace_html('available', :partial => "contacts_list", :locals => {:contacts=> @available_contacts, :contact_type => "available"})
+# Update the running total in the paging area
+page.replace_html('paging_block', :partial=> "shared/will_paginate_pager", :locals=>{:paging_object=> @available_contacts})
+page.replace_html('alt-message', "<div id='notice-box'>Selected contact(s) successfully removed from template.<script type='text/javascript'>scroll(0,0);</script></div>")

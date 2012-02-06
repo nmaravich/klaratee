@@ -1,0 +1,2 @@
+page.replace_html( "notes", :partial => "/suppliers/supplier_notes", :collection => @supplier_notes )
+page.insert_html :top, "notes", "<div class='flash_notice''> #{flash[:notice]} </div>"

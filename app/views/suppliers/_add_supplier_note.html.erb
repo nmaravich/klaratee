@@ -1,0 +1,7 @@
+<% @supplier_note = SupplierNote.new %>
+<% remote_form_for @supplier_note ,:update => {:failure=>"alt-message"} do |f| %>
+<%= f.error_messages %>
+<%= f.hidden_field :supplier_id, :value=>@supplier.id %>
+<%= f.text_area :note, :cols=>40, :rows=>6 %>
+<%= f.submit 'Save' %>
+<% end %>

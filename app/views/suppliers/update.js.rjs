@@ -1,0 +1,2 @@
+page.replace_html( "supplier_info", :partial => "add_supplier", :object => @supplier )
+page.replace_html('alt-message', "<div id='notice-box'>Supplier successfully updated.<script type='text/javascript'>scroll(0,0);</script></div>")

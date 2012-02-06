@@ -1,0 +1,137 @@
+<hr/><% @contact = Contact.new %>
+<% remote_form_for @contact,:update => {:failure=>"alt-message"} do |g| %>
+<%= g.error_messages %>
+<%= hidden_field_tag :supplier_id,  @supplier.id %>
+<%= hidden_field_tag :contact_type, c_type %>
+<table width="100%">
+   <tr>
+      <td width="25%" valign="top">
+         <table width="100%">
+            <tr>
+               <td>
+                  <%= g.label :first_name %>
+               </td>
+               <td>
+                  <%= g.text_field :f_name, :size => 15 %>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <%= g.label :last_name %>
+               </td>
+               <td>
+                  <%= g.text_field :l_name, :size => 15 %>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <%= g.label :title %>
+               </td>
+               <td>
+                  <%= g.text_field :title, :size => 15 %>
+               </td>
+            </tr>
+         </table>
+      </td>
+      <td width="25%" valign="top">
+         <table width="100%">
+            <tr>
+               <td>
+                  <%= g.label :address1 %>
+               </td>
+               <td>
+                  <%= g.text_field :address1, :size => 15 %>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <%= g.label :address2 %>
+               </td>
+               <td>
+                  <%= g.text_field :address2, :size => 15 %>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <%= g.label :city %>
+               </td>
+               <td>
+                  <%= g.text_field :city, :size => 15 %>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <%= g.label :state %>
+               </td>
+               <td>
+                  <%= g.text_field :state, :size => 15 %>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <%= g.label :zip, "Postal Code" %>
+               </td>
+               <td>
+                  <%= g.text_field :zip, :size => 15 %>
+               </td>
+            </tr>
+         </table>
+      </td>
+      <td width="25%" valign="top">
+         <table width="100%">
+            <tr>
+               <td>
+                  <%= g.label :phone_number %>
+               </td>
+               <td>
+                  <%= g.text_field :phone_number, :size => 15 %>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <%= g.label :fax %>
+               </td>
+               <td>
+                  <%= g.text_field :fax, :size => 15 %>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <%= g.label :email %>
+               </td>
+               <td>
+                  <%= g.text_field :email, :size => 15 %>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <%= g.label :comments %>
+               </td>
+               <td>
+                  <%= g.text_field :comments, :size => 30 %>
+               </td>
+            </tr>         
+		</table>
+      </td>
+      <td width="25%" valign="top">
+         <table width="100%">
+			<%  @contact.dynamo_fields do |field_name| %>
+                <tr>
+                	<td><%= field_name.capitalize %>:</td>
+					<td><%= g.text_field field_name%></td>
+				</tr>
+            <%  end %>
+            <tr>
+               <td>
+                  <b>Save</b>:
+               </td>
+               <td>
+                  <%= submit_tag "add" %>
+               </td>
+            </tr>
+         </table>
+      </td>
+   </tr>
+</table>
+<% end %>
+<hr/>

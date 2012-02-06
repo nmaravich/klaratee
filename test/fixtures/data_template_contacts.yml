@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  data_template_id: 1
+  contact_id: 1
+
+two:
+  data_template_id: 1
+  contact_id: 1

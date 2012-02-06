@@ -1,0 +1,61 @@
+<style>
+	.temp-content ul {
+		font-family: Verdana;
+		font-size: 1em;
+		list-style-type: disc;
+		list-style: disc;
+	}
+	.temp-content {
+		font-family: Verdana;
+		font-size: 1em;
+	}
+</style>
+<div class="content-section temp-content">
+<div class="suppliers-minor-color long-heading">
+	<h3>Klaratee Data Collection Overview</h3>
+</div>
+   <% if @events.size > 0 %>
+   <p>You have been invited to the following templates within these events.</p>
+   <% @events.each do |evt| %>
+   Event: <%= link_to evt.name, event_path(evt) %>
+   - <%= link_to "FAQ", faqs_path({:event=>evt.id}) %>
+   <%= "(Closed" if !evt.status_open? %>
+   <%= ": Re-opened for invitee" if !evt.status_open? && evt.open_to_user?(current_user.id) %>
+   <%= ")" if !evt.status_open? %>
+   <br/>
+   <ul>
+      <% evt.templates_with_invitee(current_user).each do |t| %>
+      <li>
+         Template: <%= link_to t.name, items_path(:"selected_event[id]" => evt.id, :"selected_data_template[id]" => t.id ) %>
+      </li>
+      <% end %>
+   </ul>
+   <% end %>
+   <% else %>
+   You have not been invited to participate in any events.<% end %>
+   <br/>
+   <hr /><h3>Data entry options</h3>
+   <ul>
+      <li>Online - Click the Items tab and click the Create Item link</li>
+      <li>Excel download and upload - Select the Item Sheet - Export menu option on the Items page, populate the template, save to your desktop and then upload via the Item Sheet - Import menu option.</li>
+      <ul>
+         <li>Please read the excel instructions located on the first worksheet.</li>
+         <li>Please do not change the general structure of the file by adding or removing tabs or columns.</li>
+         <li>You may use Excel formulas within the items spreadsheet.</li>
+         <li>If you have any problems upon upload, then please inspect the data to see if there is anything unusual within the file.</li>
+         <li>Please be sure to save the file as an Excel 97-2003 workbook (.xls).</li>
+         <li>Once an item sheet is imported it cannot be imported again.  Please download a fresh item sheet each time you wish to make item changes to make sure your updates are applied correctly.</li>
+      </ul>
+      <li>Please use the forgot your password link located at the login screen if you forget your password and cannot gain entry into the site.</li>
+   </ul>
+    <br/>
+   <p>
+      If you have any problems:
+      Email us at: <a href="mailto:support@klaratee.com?subject=Klaratee Problem">support@klaratee.com</a>
+   </p>
+   <p>
+      Also feel free to email Nick Maravich at: <a href="mailto:nmaravich@klaratee.com?subject=Klaratee Problem">nmaravich@klaratee.com</a>
+      <br/>
+      You may also call Nick at 412-417-4730 should you have any issues or questions.
+   </p>
+</div>

@@ -1,0 +1,10 @@
+<table width="100%">
+	<tr id="supplier_note_<%= supplier_notes.id %>">
+		<td width="30%">
+			<%= supplier_notes.note %>&nbsp;<%= supplier_notes.created_at %>
+		</td>
+		<td width="70%">
+			<%= link_to_remote("Remove", {:url => supplier_note_path(supplier_notes), :method => :delete, :confirm => "are you sure?"} ) %>
+		</td>
+	</tr>
+</table>

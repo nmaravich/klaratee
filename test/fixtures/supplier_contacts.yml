@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  supplier_id: 1
+  contact_id: 1
+  contact_type: MyString
+
+two:
+  supplier_id: 1
+  contact_id: 1
+  contact_type: MyString

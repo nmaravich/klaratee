@@ -1,0 +1,4 @@
+		 Event: <%= collection_select(:selected_event, :id, @ea_events, :id, :name, options ={:include_blank => "Any Event"}, {:onchange => 'this.form.submit()'}) %>
+        <% unless @selected_event.nil? %>
+         &nbsp;&nbsp;&nbsp;<b>Start Date</b>: <%=h @selected_event.start_date %>&nbsp;&nbsp;&nbsp; <b>End Date</b>: <%=h @selected_event.end_date %>
+ 		<% end %>

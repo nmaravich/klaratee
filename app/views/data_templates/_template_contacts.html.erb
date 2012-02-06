@@ -1,0 +1,44 @@
+<div id="contacts-list">
+	<div class="templates-minor-color long-heading">
+       <h3>Template Contacts</h3>
+    </div>
+   <% unless @data_template.contacts.nil? %>
+   <table>
+      <thead>
+         <th>First Name</th>
+         <th>Last Name</th>
+         <th>Title</th>
+         <th colspan="2">Supplier</th>
+      </thead>
+      <tbody>
+         <% @data_template.contacts.each do |contact| %>
+         <tr id="contact_id_<%= contact.id %>" >
+            <td>
+               <%= contact.f_name %>
+            </td>
+            <td>
+               <%= contact.l_name %>
+            </td>
+            <td>
+               <%= contact.title %>
+            </td>
+            <td>
+               <%= contact.suppliers.first.company_name %>
+            </td>
+            <td>
+               <%=link_to_function 'Remove', "remove_contact_from_template_modal( #{@data_template.id}, #{contact.id}, 'contact from template' )" %>
+            </td>
+         </tr>
+         <% end %>
+      </tbody>
+   </table>
+   <br/>
+   <br/>
+   <% else %>
+   <p>No contacts assigned to this template</p>
+   <% end %>
+   &nbsp;
+   <%= link_to 'Manage template contacts', {:action => "index", :controller => "contacts", :selected_data_template => {:id => @data_template.id}, :selected_event=>{:id => @data_template.event.id} }, :class => "action-button" if @data_template.event.status_open? %>
+   <br/>
+   <br/>
+</div>

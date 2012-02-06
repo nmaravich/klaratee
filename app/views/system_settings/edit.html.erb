@@ -1,0 +1,21 @@
+<div class="content-section">
+
+<div class="events-minor-color long-heading">
+<h3>Edit Setting</h3>
+</div><% form_for(@setting) do |f| %>
+  <%= f.error_messages %>
+  <%= hidden_field_tag :id, @setting.id %>
+  <p>
+    <%= f.label 'Setting' %>: 
+    <%= t @setting.key %>
+  </p>
+  <p>
+    <%= f.label 'Value' %>: 
+    <%= f.text_field :value %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+<%= link_to 'Back', '/settings' %>
+</div>

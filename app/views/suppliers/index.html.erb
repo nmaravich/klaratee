@@ -1,0 +1,77 @@
+<%= javascript_tag "token = '#{form_authenticity_token}'" %>
+<div class="heading">
+<div class="chromestyle" id="chromemenu">
+<ul>
+	   <li><%= link_to "<img src='images/lorry_add.png' /> Add Supplier", new_supplier_path %></li>
+	   <li><%= link_to "<img src='images/group_gear.png' /> Manage template contacts", contacts_path %></li>
+       <li><a href="#" rel="dropmenu1"><img src="images/excel_btn.gif"/> Supplier Sheet</a></li>
+</ul>
+</div>
+
+<!--1st drop down menu -->                                                
+<div id="dropmenu1" class="dropmenudiv" style="width: 150px;">
+	<%= link_to "<img src='images/arrow_down.png' /> Export Suppliers", {:controller => 'download' , :action => 'download_supplier_xls'}, {:title => "Download MS Excel suppliers file that can be updated and imported."} %>
+	<%= link_to_function("<img src='images/arrow_up.png' /> Import Suppliers", "$('#upload').toggle()", :title => "Import MS Excel suppliers file") %>
+</div>
+
+<script type="text/javascript">
+cssdropdown.startchrome("chromemenu")
+</script>
+
+</div>
+<div id="upload">
+  <div class="prompt">Please select a file to import (MS Excel 97-2003 format):</div>
+  <% form_for(:upload_supplier,
+            :url => {:controller => 'upload', :action => 'supplier_xls'} ,
+            :html => {:multipart => true } ) do |form| %>
+    <%= form.file_field("supplier_file") %>
+    <%= submit_tag("Upload File", :id=>'uploadSubmit') %>
+  <% end %>
+</div>
+<div class="content-section">
+	
+<%= render :partial => "/shared/processing_upload_dialog" %>	
+	
+<div class="suppliers-minor-color long-heading">
+<h3>My Suppliers</h3>
+</div>
+
+<div class="digg_pagination">
+  <div class="page_info">
+    <%= page_entries_info @suppliers %>
+  </div>
+  <%= will_paginate @suppliers, :container => false %>
+</div>
+<table width="100%" cellpadding="3" cellspacing="1">
+   <tr>
+      <th><%= link_to "Supplier Name", {:overwrite_params => {:sort_by => "0", :page => 1, :sort_type => (params[:sort_by] == '0' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+      <th><%= link_to "Address", {:overwrite_params => {:sort_by => "2", :page => 1, :sort_type => (params[:sort_by] == '2' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+      <th><%= link_to "Phone / Fax", {:overwrite_params => {:sort_by => "3", :page => 1, :sort_type => (params[:sort_by] == '3' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+      <th>Actions</th>
+   </tr>
+   <% @suppliers.each do |supplier| %>
+   <tr class="<%= cycle('oddrow', 'evenrow') %>" id='supplier_id_<%= supplier.id %>'>
+      <td>
+         <%= link_to supplier.company_name, edit_supplier_path(supplier) %>
+      </td>
+      <td>
+         <%=h supplier.address1 %>
+         <%=h supplier.city %>
+         <%=h supplier.state %>
+         <%=h supplier.zip %>
+      </td>
+      <td>
+         Phone: <%=h supplier.phone_number %><br/>
+         Fax: <%=h supplier.fax %>
+      </td>
+	  <td><%= link_to_delete_modal(supplier, 'supplier', 'Delete Supplier?', 200) %></td>
+   </tr>
+   <% end %>
+</table>
+<div class="digg_pagination">
+  <%= will_paginate @suppliers, :container => false %>
+</div>
+</div>
+
+<% @custom_message = "Removing this supplier will remove their<br/>Contacts and Items<br/><p><b>Are you sure?</b></p>" %>
+<%= render :partial => "/shared/confirm_dialog_customizable" %>

@@ -1,0 +1,58 @@
+<% open_events = events.reject {|e| ! e.status_open?} %>
+<% closed_events = events.reject {|e| ! e.status_closed?} %>
+<% archived_events = events.reject {|e| ! e.status_archived?} %>
+<% @labels = (Event.new.enums :status).labels.map{|l| l.to_sym } %>
+<% @eventh = {:Open => open_events, :Closed => closed_events, :Archived => archived_events } %>
+
+<table id="<%= table_id %>">
+   <thead>
+      <tr>
+         <th>Name</th>
+         <th>Start date</th>
+         <th>End date</th>
+		 <th>Status</th>
+		 <th>FAQ</th>
+		 <th>Actions</th>
+      </tr>
+   </thead>
+   <tbody>
+     <% @labels.each do |status_label|%>
+	  <% if @eventh[status_label].size > 0 %>
+		  <tr>
+		  	<td colspan="6" align="left" bgcolor="#fffeb2">
+		  		<b><%= status_label.to_s %>  Events:</b>
+			</td>
+		 </tr>
+		      <% @eventh[status_label].each do |event| %>
+	      <tr class="<%= cycle('oddrow', 'evenrow') %>" id='event_id_<%= event.id %>'>
+	         <td id='<%= event.id %>_name'>
+	            <%=h event.name %>
+	         </td>
+	         <td id='<%= event.id %>_start_date'>
+	            <%=h event.start_date %>
+	         </td>
+	         <td id='<%= event.id %>_end_date'>
+	            <%=h event.end_date %>
+	         </td>
+			 <td id='<%= event.id %>_status'>
+			 	<% if event.status_closed? %>
+		            <%=h "#{event.status}, "%>
+					<em>
+					<%  numexceptions = event.status_exceptions.count %>
+					<%= pluralize numexceptions, "exception" %>
+					(<%= link_to (numexceptions > 0 ? "add" : "add"), change_status_path(event) if event.status_closed? %>)</em>
+				<% else %>
+		            <%=h "#{event.status}"%>
+				<% end %>
+	         </td>
+			 <td><%= link_to 'FAQ', faqs_path(:event=>event) %></td>
+	         <td>
+	            <%= link_to_function 'Edit', "event_modal(#{event.id},  'Edit " + escape_javascript(event.name) + "' )" %>	         
+			    <%= link_to_delete_modal(event) %>
+	         </td>
+	      </tr>
+	      <% end %>
+      <% end %>
+     <% end %>
+   </tbody>
+</table>

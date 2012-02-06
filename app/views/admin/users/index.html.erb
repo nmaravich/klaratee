@@ -1,0 +1,34 @@
+<div class="content-section">
+<div class="admin-minor-color long-heading">
+<h3>User Admin</h3>
+</div>
+
+<ul>
+	<li>
+	   <%= link_to "Admin Home", :controller => "admin/admin", :action => "index" %>
+    </li>
+</ul>
+<%= link_to "Create New User", :controller => "admin/users", :action => "new" %>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>login</th>
+    <th>Creator</th>
+    <th>Updater</th>
+    <th colspan='3'>Actions</th>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr>
+    <td><%=h "#{user.first_name} #{user.last_name}" %></td>
+    <td><%=h user.login %></td>
+    <td><%=h user.creator._?.login %></td>
+    <td><%=h user.updater._?.login %></td>
+    <td><%= link_to 'Reset Password', :controller => "admin/users", :action => "reset_password", :id => user.id %>&nbsp; &nbsp;
+	    <%= surrogate_link user %> 
+	</td>
+  </tr>
+<% end %>
+</table>
+
+</div>

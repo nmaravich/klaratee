@@ -1,0 +1,21 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  hello: "Hello world"
+  column_types:
+      string_value: "Text"
+      text_value: "Large Text"
+      int_value: "Numeric"
+      decimal_value: "Decimal"
+      select_one: "Select One"
+      select_many: "Select Many"
+  item_value_errors:
+      required: "{{column}} is a required field"
+      integer_type: "Integer value is required"
+      decimal_type: "Decimal value is required"
+      multiple_select_invalid: "One or more values entered ({{entered}}) do not match any of the allowed values ({{allowed}})"
+      select_invalid: "Value ({{entered}}) does not match any of the allowed values ({{allowed}})"
+  email_safety:
+      enabled: "Enable email safety (global forwarding) for all events?:"
+      forward_to_email: "Forwarding email address for email safety:"

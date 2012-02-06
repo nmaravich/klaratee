@@ -1,0 +1,24 @@
+<h1>Listing item_values</h1>
+
+<table>
+  <tr>
+    <th>Data template column</th>
+    <th>Value</th>
+    <th>Item</th>
+  </tr>
+
+<% @item_values.each do |item_value| %>
+  <tr>
+    <td><%=h item_value.data_template_column_id %></td>
+    <td><%=h item_value.value %></td>
+    <td><%=h item_value.item_id %></td>
+    <td><%= link_to 'Show', item_value %></td>
+    <td><%= link_to 'Edit', edit_item_value_path(item_value) %></td>
+    <td><%= link_to 'Destroy', item_value, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New item_value', new_item_value_path %>

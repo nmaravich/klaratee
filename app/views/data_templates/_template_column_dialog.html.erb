@@ -1,0 +1,54 @@
+<style type="text/css">
+   
+   #multivalue {
+       display: none;
+   }
+</style>
+<script>
+   $(function(){
+       $('#data_template_column_col_type').change(function(){
+           var val = $('#data_template_column_col_type').val();
+           $("#multivalue").hide();
+           if (val == "select_one" || val == "select_many") {
+               $("#multivalue").show();
+           }
+       });
+   });
+</script>
+<div id="template-column-form" class="hide">
+   <% @data_template_column = DataTemplateColumn.new if @data_template_column.nil? %>
+   <% form_for(@data_template_column) do |f| %>
+   <%= f.error_messages %>
+   <%= hidden_field_tag :data_template_id, @data_template.id %>
+   <p>
+      <%= f.label :name %>
+      <br/>
+      <%= f.text_field :name %>
+   </p>
+   <p>
+      <table>
+         <tr>
+            <td>
+               <label>Column Type</label>
+            </td>
+         </tr>
+         <tr valign="top">
+            <td>
+               <%= f.select("col_type", options_for_select( DataTemplateColumn::TYPES, @data_template_column.col_type )) %>
+            </td>
+            <td>
+            	
+               <span id="multivalue"><%= text_area_tag 'possible_values', @data_template_column.data_template_column_possible_values.collect{|val| val.possible_value }.join(',') %>
+			   <br/><p class="subtle-text">Enter comma separated possible values</p>
+               </span>
+            </td>
+         </tr>
+      </table>
+   </p>
+   <p>
+      <%= f.label :required %>
+      <br/>
+      <%= f.check_box :required %>
+   </p>
+   <% end %>
+</div>

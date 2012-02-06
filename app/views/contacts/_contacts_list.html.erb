@@ -1,0 +1,51 @@
+<div id="<%= contact_type %>">
+
+<% remote_form_for :contact, :update => {:failure=>"alt-message"}, :html=>{:id=>"#{contact_type}_form"}, :url=>{:controller=>:contacts, :action=>determine_form_action(contact_type), :data_template_id=>@selected_data_template.id } do |f| %>
+
+   <% unless contacts.empty? %>
+   <table>
+      <tr>
+         <th>&nbsp;</th>
+         <th>First name</th>
+         <th>Last name</th>
+         <th>Title</th>
+         <th>Company Name</th>
+         <th>Phone #</th>
+         <th>Email</th>
+         <th>Belongs to template(s)</th>
+      </tr>
+      <% contacts.each do |contact| %>
+      <tr class='<%= cycle('oddrow','evenrow') %>' id="<%= contact_type %>_<%= contact.id %>">
+         <td>
+            <%= check_box_tag("#{contact_type}_contacts[]", value=contact.id  ) %>
+         </td>
+         <td>
+            <%=h contact.f_name %>
+         </td>
+         <td>
+            <%=h contact.l_name %>
+         </td>
+         <td>
+            <%=h contact.title %>
+         </td>
+         <td>
+            <%= supplier_list_for_contact(contact) %>
+         </td>
+         <td>
+            <%=h contact.phone_number %>
+         </td>
+         <td>
+            <%=h contact.email %>
+         </td>
+         <td>
+            <%= template_list_for_contact(contact) %>
+         </td>
+      </tr>
+      <% end %>
+   </table>
+    <p><%= create_submit_link(contact_type) %></p>
+   <% else %>
+      <p>No contacts assigned to this template</p>
+   <% end %>
+<% end %>
+</div>

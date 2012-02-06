@@ -1,0 +1,56 @@
+<div class="heading">
+<div class="chromestyle" id="chromemenu">
+<ul>
+  <li><%= link_to "<img src='images/arrow_left.png'/> Back to Items", :controller => 'items', :action => 'index' %></li>
+</ul>
+</div>
+</div>
+<div class="content-section">
+	
+<div class="items-minor-color long-heading">
+	<h3>Item Import History for user: <%= current_user.login %></h3>
+</div>
+   <% if ! @results.nil? && ! @results.empty? %>
+<div class="digg_pagination">
+  <div class="page_info">
+    <%= page_entries_info @results, :entry_name => 'import result' %>
+  </div>
+  <%= will_paginate @results, :container => false %>
+</div>
+   <% end %>
+
+   <table width="100%" cellspacing="0" cellpadding="0" id="items-list">
+      <tr>
+         <th><%= link_to "Uploaded", {:overwrite_params => {:sort_by => 'created_at', :page => 1, :sort_type => (params[:sort_by] == 'created_at' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+         <th><%= link_to "Event", {:overwrite_params => {:sort_by => 'event_name', :page => 1, :sort_type => (params[:sort_by] == 'event_name' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+         <th><%= link_to "Template", {:overwrite_params => {:sort_by => 'template_name', :page => 1, :sort_type => (params[:sort_by] == 'template_name' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+         <th><%= link_to "Filename", {:overwrite_params => {:sort_by => 'filename', :page => 1, :sort_type => (params[:sort_by] == 'filename' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+         <th><%= link_to "New", {:overwrite_params => {:sort_by => 'new_count', :page => 1, :sort_type => (params[:sort_by] == 'new_count' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+         <th><%= link_to "Modified", {:overwrite_params => {:sort_by => 'mod_count', :page => 1, :sort_type => (params[:sort_by] == 'mod_count' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+         <th><%= link_to "Deleted", {:overwrite_params => {:sort_by => 'deleted_count', :page => 1, :sort_type => (params[:sort_by] == 'deleted_count' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+         <th><%= link_to "Errors", {:overwrite_params => {:sort_by => 'error_count', :page => 1, :sort_type => (params[:sort_by] == 'error_count' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+      </tr>
+        <% @results.each do |res| %>
+      <tr class="<%= cycle('oddrow', 'evenrow') %>">
+	      <td><%=h res.created_at.in_time_zone.strftime("%m/%d/%Y %I:%M%p %Z") %></td>
+	      <td><%=h res.event_name %></td>
+	      <td><%=h res.template_name %></td>
+	      <td><%=h res.filename %></td>
+	      <td><%=h res.new_count %></td>
+	      <td><%=h res.mod_count %></td>
+	      <td><%=h res.deleted_count %></td>
+          <% if ! res.error_count.nil? && res.error_count > 0 %>
+  	        <td><%= link_to res.error_count.to_s, {:controller => 'upload', :action => 'errors', :iur_id => res.id}, {:title => 'View Error Report'} %></td>
+		  <% else %>
+	        <td><%=h res.error_count.to_s %></td>
+		  <% end %>
+		  
+      </tr>
+       <% end %>
+   </table>
+   <% if ! @results.nil? %>
+<div class="digg_pagination">
+  <%= will_paginate @results, :container => false %>
+</div>
+   <% end %>
+</div>

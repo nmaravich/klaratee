@@ -1,0 +1,162 @@
+<div class="heading">
+
+   <% form_for :event, :url => {:action => "index" }, :html => { :method => 'get' } do |f| %>
+<div class="chromestyle" id="chromemenu">
+<ul>
+<li class="custom">   Event:     <%= collection_select(:selected_event,         :id, @ea_events,      :id, :name, options={:include_blank => "Show all"}, {:onchange => 'this.form.submit()'}) %>
+   Templates: <%= collection_select(:selected_data_template, :id, @ea_data_templates, :id, :name, options={:include_blank => "Select a Template"}, {:onchange => 'this.form.submit()'}) %>
+</li>
+<% if (! @selected_event.nil? && ! @selected_event.id.nil?) && (! @selected_data_template.nil? && @selected_data_template.data_template_columns.size > 0) %>
+<li><a href="#" rel="dropmenu1"><img src="images/excel_btn.gif"/> Item Sheet</a></li>
+<% end %>
+<% if ! @selected_event.nil? && ! @selected_event.id.nil? %>
+  <% if has_role?(Role::BUYER.to_sym) || has_role?(Role::ADMIN.to_sym) %>	     	
+<li><%= link_to "<img src='images/master_items.png' /> Master Items", {:controller => 'master_items' , :action => 'index'}, {:title => "Show Master Items (All Templates Merged)"} %></li>
+  <% end %>
+<% end %>
+</ul>
+</div>
+	   
+	   <% if ! @selected_event.nil? && ! @selected_event.id.nil? %>
+
+	       <% if ! @selected_data_template.nil? && @selected_data_template.data_template_columns.size > 0 %>
+
+<!--1st drop down menu -->                                                
+<div id="dropmenu1" class="dropmenudiv" style="width: 150px;">
+	           <%= link_to "<img src='images/arrow_down.png' /> Export", {:controller => 'download' , :action => 'template_items_xls', :data_template_id => @selected_data_template.id, :params => {:show_item_audit => params[:show_item_audit]}}, {:title => "Export Template Items to MS Excel File"} %>
+               <% if @obj[:items_editable] %>
+			   	    <%= link_to_function( "<img src='images/arrow_up.png' /> Import", "$('#upload').toggle()", :title => "Import Template Items in MS Excel format") %>
+			   	    <%= link_to "<img src='images/date_magnify.png' /> Import History", {:controller => 'upload', :action => 'index'}, {:title => "View statistics and errors from previous item sheet uploads"} %>
+			   <% end %>
+</div>
+	       <% end %>   	
+		      
+	   <% end %>
+
+   <% end %>
+			 
+   
+</div>
+
+<div id="upload">
+  <div class="prompt">Please select a file to import (MS Excel 97-2003 format):</div>
+  <% form_for (:upload_template_items,
+  :url => { :controller => 'upload', :action => 'template_item_upload'}, 
+  :html => {:multipart => true } ) do |form| %>
+  <% unless @selected_data_template == nil %>
+	  <%= hidden_field_tag 'dt_id', @selected_data_template.id %>
+  <% end%>
+  <%= form.file_field("template_items_file") %>
+  <%= submit_tag("Upload File", :id=>'uploadSubmit') %>
+  <% end %>
+</div>
+
+<%= render :partial => "/shared/processing_upload_dialog" %>
+   
+<script type="text/javascript">
+cssdropdown.startchrome("chromemenu")
+</script>   
+
+<div class="content-section">
+	
+<div class="items-minor-color long-heading">
+	<h3>Template Items</h3>
+</div>	
+   <% if @selected_event.nil? || @selected_event.id.nil? %>
+   No event selected
+   <% elsif @selected_event.data_templates.size < 1 %>
+   Selected event has no templates
+   <% elsif @selected_data_template.nil? %>
+   No template selected.
+   <% elsif @selected_data_template.data_template_columns.size < 1 %>
+   Selected template has no columns defined.
+   <% elsif ! @items.nil? && ! @items.empty? %>
+   <% if @obj[:items_editable] %>
+      <h5>Click an item value to edit. <br/>To save click enter, or click anywhere outside the field.</h5>
+   <% else %>
+      <h5>This event is closed, so you are no longer able to upload or edit items.</h5> 
+   <% end %>
+	
+	<div class="digg_pagination">
+	  <div class="page_info">
+	    <%= page_entries_info @items, :entry_name => 'template item' %>
+	  </div>
+	  <%= will_paginate @items, :container => false, :params => { :selected_event => {:id => @selected_event.id}, :selected_data_template => {:id => @selected_data_template.id} } %>
+	</div>
+	
+   <% if has_role?(Role::BUYER.to_sym) || has_role?(Role::ADMIN.to_sym) %>
+     <div style="margin-bottom: 3px">
+     <% if params[:show_item_audit].nil? || params[:show_item_audit] == 'no' %>
+       <%= link_to '(Show item audit information)', {:overwrite_params => {:show_item_audit => 'yes', :selected_event => {:id => @selected_event.id}, :selected_data_template => {:id => @selected_data_template.id}}} %> 	
+     <% else %>
+       <%= link_to '(Hide item audit information)', {:overwrite_params => {:show_item_audit => 'no', :selected_event => {:id => @selected_event.id}, :selected_data_template => {:id => @selected_data_template.id}}} %>    	
+     <% end %>
+	 </div>
+   <% end %>
+
+   <table width="100%" cellspacing="0" cellpadding="0" id="items-list">
+      <tr>
+       <% if (has_role?(Role::BUYER.to_sym) || has_role?(Role::ADMIN.to_sym)) && (! params[:show_item_audit].nil? && params[:show_item_audit] == 'yes') %>	     	
+      	 <th class="system_col"><%= link_to 'Created By', {:overwrite_params => {:sort_by => 'created_by', :page => 1, :sort_type => (params[:sort_by] == 'creator_id' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+      	 <th class="system_col"><%= link_to 'Created', {:overwrite_params => {:sort_by => 'created_at', :page => 1, :sort_type => (params[:sort_by] == 'created_at' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+      	 <th class="system_col"><%= link_to 'Last Updated By', {:overwrite_params => {:sort_by => 'last_updated_by', :page => 1, :sort_type => (params[:sort_by] == 'last_updated_by' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+      	 <th class="system_col"><%= link_to 'Updated', {:overwrite_params => {:sort_by => 'updated_at', :page => 1, :sort_type => (params[:sort_by] == 'updated_at' && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+       <% end %>
+       <% @selected_data_template.data_template_columns.each do |col| %>
+         <th><%= link_to col.name, {:overwrite_params => {:sort_by => col.sha1_name, :page => 1, :sort_type => (params[:sort_by] == col.sha1_name && params[:sort_type] == 'asc' ? 'desc' : 'asc')}}, {:title => 'Click to sort'} %></th>
+       <% end %>
+      </tr>
+        <% @items.each do |i| %>
+      <tr id="item_id_<%= i.id %>">
+       <% if (has_role?(Role::BUYER.to_sym) || has_role?(Role::ADMIN.to_sym)) && (! params[:show_item_audit].nil? && params[:show_item_audit] == 'yes') %>	     	
+      	  <td><%=h i.created_by %><%= i.surrogate_creator_id.nil? ? '' : (' (via ' + i.created_by_sgt + ')') %></td>
+      	  <td><%=h i.created_at.in_time_zone.strftime("%m/%d/%Y %I:%M%p %Z") %></td>
+      	  <td><%=h i.last_updated_by %><%= i.surrogate_updater_id.nil? ? '' : (' (via ' + i.last_updated_by_sgt + ')') %></td>
+      	  <td><%=h i.updated_at.in_time_zone.strftime("%m/%d/%Y %I:%M%p %Z") %></td>
+       <% end %>
+       <% @selected_data_template.data_template_columns.each do |col| %>
+         <td class="hover-highlight">
+            <div id="<%= col.id %>-<%= i.id %>" class="edit">
+			<%= # Warning: Ruby Magic
+            # We know that the sql used to generate the items returned columns that match the
+            # names of real data_template_columns ( name, description, price, age, color, etc )
+            # Because of that we know that the @items created from that query will have coresponding
+            # accessor methods created magically.  We can call those methods using ruby's send command.
+            # So below is equivalent to  i.price, i.description, i.name, even though there aren't
+            # price, description, or name columns in the items database table.
+           	(i.send(col.sha1_name) == 'Null') ? '' : i.send(col.sha1_name)
+            %>
+			</div>
+         </td>
+       <% end %>
+      </tr>
+       <% end %>
+      <% else %>
+      <p>There are no items in this template.</p>
+	     <%= link_to 'Click Here', {:controller => 'download' , :action => 'template_items_xls', :data_template_id => @selected_data_template.id} %>
+		 to download an excel file template to add your items.  Use the <strong>Import</strong> link above in the header to upload your items.
+      <% end %>
+   </table>
+   <% if ! @items.nil? %>
+	<div class="digg_pagination">
+	  <%= will_paginate @items, :container => false, :params => { :selected_event => {:id => @selected_event.id}, :selected_data_template => {:id => @selected_data_template.id} } %>
+	</div>
+   <% end %>
+   <p>
+      <% if ! @selected_event.nil? && ! @selected_event.id.nil? && ! @selected_data_template.nil? && @selected_data_template.data_template_columns.size > 0 && @obj[:items_editable] %>
+          <%= link_to 'Create Item', {:action => "new", :controller => "items", :dt_id => @selected_data_template.id }, :class => "action-button" %>
+   	  <% end %>		  
+   </p>
+</div>
+
+<% if @obj[:items_editable] %>
+<script>
+	$(document).ready(function(){
+	    $(document).ready(function(){
+	        $('.edit').bind('click', function(event){
+	            inline_edit_items(this, event.target.id);
+	        });
+	    });
+	});
+</script>   
+<% end %>
