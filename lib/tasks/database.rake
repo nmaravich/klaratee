@@ -209,19 +209,20 @@ namespace :db do
       
       users_created = []
       @database_yml.keys.each do |connection|
+
         if connection =~ /^#{RAILS_ENV}/ && !users_created.include?( @database_yml[connection]['username'] )
-          begin
-            puts "  Dropping current user #{@database_yml[connection]['username']}'@'localhost (if already exists) "
-            ActiveRecord::Base.connection.execute("DROP USER '#{@database_yml[connection]['username']}'@'localhost';")
-          rescue Exception => e
-            puts "  Can't drop user ( probably doesn't exist to drop ): #{e}"
-          end
-          begin
-            puts "  Dropping current user #{@database_yml[connection]['username']}'@'%' (if already exists) "
-            ActiveRecord::Base.connection.execute("DROP USER '#{@database_yml[connection]['username']}'@'%';")
-          rescue Exception => e
-            puts "  Can't drop user ( probably doesn't exist to drop ): #{e}"
-          end
+        #   begin
+        #     puts "  Dropping current user #{@database_yml[connection]['username']}'@'localhost (if already exists) "
+        #     ActiveRecord::Base.connection.execute("DROP USER '#{@database_yml[connection]['username']}'@'localhost';")
+        #   rescue Exception => e
+        #     puts "  Can't drop user ( probably doesn't exist to drop ): #{e}"
+        #   end
+        #   begin
+        #     puts "  Dropping current user #{@database_yml[connection]['username']}'@'%' (if already exists) "
+        #     ActiveRecord::Base.connection.execute("DROP USER '#{@database_yml[connection]['username']}'@'%';")
+        #   rescue Exception => e
+        #     puts "  Can't drop user ( probably doesn't exist to drop ): #{e}"
+        #   end
           
           ActiveRecord::Base.connection.execute("CREATE USER '#{@database_yml[connection]['username']}'@'localhost' IDENTIFIED BY '#{@database_yml[connection]['password']}';")
           # Because of the db naming standard this grant will allow the same user to have permissions to customer databases created after this is run.
