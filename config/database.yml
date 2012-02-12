@@ -1,3 +1,11 @@
+# Create user klara_dev / root
+# Run: 
+# RAILS_ENV=development bundle exec rake db:create:all
+# RAILS_ENV=development bundle exec rake db:migrate:master_db
+# RAILS_ENV=development bundle exec rake db:migrate:all_customers
+
+# RAILS_ENV=development bundle exec rake db:migrate:customer_db['default']
+
 # Make sure to use new-style password hashing:
 # http://dev.mysql.com/doc/refman/5.0/en/old-client.html
 defaults: &defaults
@@ -8,8 +16,8 @@ dev_defaults: &dev_defaults
   <<: *defaults
   adapter: mysql
   encoding: utf8
-  username: klara_dev
-  password: k!ara_d3v
+  username: root
+  password: root
 # socket: /tmp/mysql.sock
 
 staging_defaults: &staging_defaults
@@ -17,14 +25,13 @@ staging_defaults: &staging_defaults
   username: klara_staging
   password: k!arat33_stag1ng
 # socket: /var/lib/mysql/mysql.sock
-  
+
 
 prod_defaults: &prod_defaults
   <<: *defaults
   username: klara_prod
   password: k!arat33_pr0d
 # socket: /var/lib/mysql/mysql.sock
-  
 
 #----------------------------
 # Development is for your local database 
@@ -42,7 +49,7 @@ deployer_development:
 
 #----------------------------
 # Staging is used for avadatum.com
-  
+
 staging:
   <<: *staging_defaults
   database: klaratee_staging
