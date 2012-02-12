@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1) do
+ActiveRecord::Schema.define(:version => 2) do
 
   create_table "companies", :force => true do |t|
     t.string   "name"
@@ -43,6 +43,12 @@ ActiveRecord::Schema.define(:version => 1) do
 
   add_index "roles_users", ["role_id", "user_id"], :name => "index_roles_users_on_role_id_and_user_id", :unique => true
   add_index "roles_users", ["user_id"], :name => "index_roles_users_on_user_id"
+
+  create_table "system_settings", :force => true do |t|
+    t.integer "company_id"
+    t.string  "key"
+    t.string  "value"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "login"

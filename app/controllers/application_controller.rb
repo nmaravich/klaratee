@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   
   helper :all          # include all helpers, all the time
+  
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   
   filter_parameter_logging :password # Scrub sensitive parameters from your log
@@ -34,6 +35,7 @@ class ApplicationController < ActionController::Base
   # The :cur_company is set in the session when a user logs in
   # @see current_user method in /lib/authenticated_system.
   def dyna_connect
+    puts "\n\n *** CONNECT ** \n\n"
     # TODO Add some checking in here to make sure the given config even exists in the db.yml file.
     #      Also make sure its not nil, etc.  If validation fails forward to a common error page and
     #      throw error.
